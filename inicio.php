@@ -1,9 +1,14 @@
 <?php
 include "Soporte.php";
+include "CintaVideo.php";
 
 $Soporte1 = new Soporte("Tenet", 22, 3);
-echo "<strong>" . $Soporte1->getTitulo() . "</strong><br>";
-echo "<br>Precio: " . $Soporte1->getPrecio() . " euros<br>";
-echo "<br>Precio IVA incluido: " . $Soporte1->getPrecioConIVA() . " euros";
+echo "<h3>" . $Soporte1->getTitulo() . "</h3>"; 
 $Soporte1->muestraResumen();
+
+
+
+$SmiCinta = new CintaVideo("Los cazafantasmas", 23, 3.5, 127);
+echo "<h3>" . $SmiCinta->getTitulo() . "</h3>"; 
+$SmiCinta->muestraResumen();
 ?>

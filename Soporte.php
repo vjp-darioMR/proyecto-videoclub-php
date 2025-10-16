@@ -31,7 +31,7 @@ class Soporte {
         echo "Título: " . $this->titulo . "<br>";
         echo "Número: " . $this->numero . "<br>";
         echo "Precio: " . $this->precio . " euros<br>";
-        echo "Precio con IVA (21%): " . $this->getPrecioConIVA() . " euros";
+        echo "Precio con IVA: " . $this->getPrecioConIVA() . " euros";
     }
 }
 ?>
