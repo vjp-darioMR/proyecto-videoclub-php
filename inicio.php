@@ -2,18 +2,24 @@
 include "Soporte.php";
 include "CintaVideo.php";
 include "Dvd.php";
+include "Juego.php";
 
 $Soporte1 = new Soporte("Tenet", 22, 3);
 echo "<h3>" . $Soporte1->getTitulo() . "</h3>"; 
 $Soporte1->muestraResumen();
 
 
-$SmiCinta = new CintaVideo("Los cazafantasmas", 23, 3.5, 127);
-echo "<h3>" . $SmiCinta->getTitulo() . "</h3>"; 
-$SmiCinta->muestraResumen();
+$miCinta = new CintaVideo("Los cazafantasmas", 23, 3.5, 107);
+echo "<h3>" . $miCinta->getTitulo() . "</h3>"; 
+$miCinta->muestraResumen();
 
 
-$SmiDvd = new Dvd("Origen", 24, 15, "Español, Ingles, Frances", "16:9");
-echo "<h3>" . $SmiDvd->getTitulo() . "</h3>";
-$SmiDvd->muestraResumen();
+$miDvd = new Dvd("Origen", 24, 15, "Español, Ingles, Frances", "16:9");
+echo "<h3>" . $miDvd->getTitulo() . "</h3>";
+$miDvd->muestraResumen();
+
+$mijuego1 = new Juego("The Last of Us", 26, 49.99, "PS4", 1, 1);
+echo "<h3>" . $mijuego1->getTitulo() . "</h3>";
+$mijuego1->muestraResumen();
+
 ?>
