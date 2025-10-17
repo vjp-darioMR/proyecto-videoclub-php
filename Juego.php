@@ -1,7 +1,7 @@
 <?php
 require_once "Soporte.php";
 
-class Juego extends Soporte {
+class Juego extends Soporte implements Resumible {
     private $consola;
     private $minNumJugadores;
     private $maxNumJugadores;

@@ -1,7 +1,7 @@
 <?php
 require_once "Soporte.php";
 
-class CintaVideo extends Soporte {
+class CintaVideo extends Soporte implements Resumible {
     private $duracion;
 
     public function __construct($titulo, $numero, $precio, $duracion) {

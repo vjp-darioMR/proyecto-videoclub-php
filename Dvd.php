@@ -1,7 +1,7 @@
 <?php
 require_once "Soporte.php";
 
-class Dvd extends Soporte {
+class Dvd extends Soporte implements Resumible {
     private $idiomas;
     private $formatoPantalla;
 
