@@ -1,33 +1,39 @@
 <?php
 require_once "Soporte.php";
 
-class Cliente {
+class Cliente
+{
     private $nombre;
     private $numero;
     private $maxAlquilerConcurrerte;
     private $numSoportesAlquilados = 0;
     private $soportesAlquilados = [];
 
-     public function __construct($nombre, $numero, $maxAlquilerConcurrerte = 3) {
+    public function __construct($nombre, $numero, $maxAlquilerConcurrerte = 3)
+    {
         $this->nombre = $nombre;
         $this->numero = $numero;
         $this->maxAlquilerConcurrerte = $maxAlquilerConcurrerte;
     }
 
-    public function getNumero() {
+    public function getNumero()
+    {
         return $this->numero;
     }
 
-    public function getNombre() {
+    public function getNombre()
+    {
         return $this->nombre;
     }
 
-    public function getNumSoportesAlquilados() {
+    public function getNumSoportesAlquilados()
+    {
         return $this->numSoportesAlquilados;
     }
 
-   
-    public function tieneAlquilado($soporte) {
+
+    public function tieneAlquilado($soporte)
+    {
         foreach ($this->soportesAlquilados as $alquilado) {
             if ($alquilado === $soporte) {
                 echo "El soporte " . $soporte->getTitulo() . " ya está alquilado.<br>";
@@ -38,8 +44,9 @@ class Cliente {
         return false;
     }
 
-    
-    public function alquilar($soporte) {
+
+    public function alquilar(Soporte $soporte)
+    {
         if ($this->tieneAlquilado($soporte)) {
             echo "No se puede alquilar: el soporte ya está alquilado.<br>";
             return false;
@@ -51,14 +58,15 @@ class Cliente {
         $this->soportesAlquilados[] = $soporte;
         $this->numSoportesAlquilados++;
         echo "Soporte " . $soporte->getTitulo() . " alquilado. Total de alquileres: " . $this->numSoportesAlquilados . "<br>";
-        return true;
+        return $this;
     }
 
-    public function devolver($numSoporte) {
+    public function devolver($numSoporte)
+    {
         foreach ($this->soportesAlquilados as $indice => $soporte) {
             if ($soporte->getNumero() === $numSoporte) {
                 unset($this->soportesAlquilados[$indice]);
-                $this->soportesAlquilados = array_values($this->soportesAlquilados); 
+                $this->soportesAlquilados = array_values($this->soportesAlquilados);
                 $this->numSoportesAlquilados--;
                 echo "Soporte con número " . $numSoporte . " (" . $soporte->getTitulo() . ") devuelto con éxito. Total de alquileres: " . $this->numSoportesAlquilados . "<br>";
                 return true;
@@ -68,7 +76,8 @@ class Cliente {
         return false;
     }
 
-    public function listarAlquileres() {
+    public function listarAlquileres()
+    {
         echo "Número de alquileres: " . $this->numSoportesAlquilados . "<br>";
         if ($this->numSoportesAlquilados > 0) {
             echo "Soportes alquilados:<br>";
@@ -80,9 +89,9 @@ class Cliente {
         }
     }
 
-    public function muestraResumen() {
+    public function muestraResumen()
+    {
         echo "Nombre: " . $this->nombre . "<br>";
-        echo "Alquileres realizados: " . $this->numSoportesAlquilados. "<br>";
+        echo "Alquileres realizados: " . $this->numSoportesAlquilados . "<br>";
     }
 }
-?>

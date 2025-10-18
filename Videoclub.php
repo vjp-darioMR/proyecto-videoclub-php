@@ -5,57 +5,71 @@ require_once "Dvd.php";
 require_once "Juego.php";
 require_once "Cliente.php";
 
-class Videoclub {
+class Videoclub
+{
     private $nombre;
     private $productos = [];
     private $numProductos = 0;
     private $socios = [];
     private $numSocios = 0;
 
-    public function __construct($nombre) {
+    public function __construct($nombre)
+    {
         $this->nombre = $nombre;
     }
 
-    public function incluirCintaVideo($titulo, $precio, $duracion) {
+    public function incluirCintaVideo($titulo, $precio, $duracion)
+    {
         $cinta = new CintaVideo($titulo, ++$this->numProductos, $precio, $duracion);
         $this->incluirProducto($cinta);
+        return $this;
     }
 
-    public function incluirDvd($titulo, $precio, $idiomas, $formatoPantalla) {
+    public function incluirDvd($titulo, $precio, $idiomas, $formatoPantalla)
+    {
         $dvd = new Dvd($titulo, ++$this->numProductos, $precio, $idiomas, $formatoPantalla);
         $this->incluirProducto($dvd);
+        return $this;
     }
 
-    public function incluirJuego($titulo, $precio, $consola, $minJugadores, $maxJugadores) {
+    public function incluirJuego($titulo, $precio, $consola, $minJugadores, $maxJugadores)
+    {
         $juego = new Juego($titulo, ++$this->numProductos, $precio, $consola, $minJugadores, $maxJugadores);
         $this->incluirProducto($juego);
+        return $this;
     }
 
-    private function incluirProducto($producto) {
+    private function incluirProducto($producto)
+    {
         $this->productos[] = $producto;
         echo "Producto " . $producto->getTitulo() . " (Número: " . $producto->getNumero() . ") incluido con éxito.<br>";
     }
 
-    public function incluirSocio($nombre, $maxAlquilerConcurrerte = 2) {
+    public function incluirSocio($nombre, $maxAlquilerConcurrerte = 2)
+    {
         $socio = new Cliente($nombre, ++$this->numSocios, $maxAlquilerConcurrerte);
         $this->socios[] = $socio;
         echo "Socio " . $nombre . " (Número: " . $socio->getNumero() . ") incluido con éxito.<br>";
+        return $this;
     }
 
-    public function alquilaSocioProducto($numeroCliente, $numeroSoporte) {
+    public function alquilaSocioProducto($numeroCliente, $numeroSoporte)
+    {
         $socio = $this->buscarSocio($numeroCliente);
         $producto = $this->buscarProducto($numeroSoporte);
 
         if ($socio && $producto) {
             if ($socio->alquilar($producto)) {
                 echo "Alquiler realizado: Socio " . $socio->getNumero() . " ha alquilado " . $producto->getTitulo() . ".<br>";
+                return $this;
             }
         } else {
             echo "Error: Socio o producto no encontrado.<br>";
         }
     }
 
-    public function listarProductos() {
+    public function listarProductos()
+    {
         echo "<h3>Lista de Productos</h3>";
         if (count($this->productos) > 0) {
             foreach ($this->productos as $producto) {
@@ -66,7 +80,8 @@ class Videoclub {
         }
     }
 
-    public function listarSocios() {
+    public function listarSocios()
+    {
         echo "<h3>Lista de Socios</h3>";
         if (count($this->socios) > 0) {
             foreach ($this->socios as $socio) {
@@ -78,7 +93,8 @@ class Videoclub {
         }
     }
 
-    private function buscarSocio($numeroCliente) {
+    private function buscarSocio($numeroCliente)
+    {
         foreach ($this->socios as $socio) {
             if ($socio->getNumero() === $numeroCliente) {
                 return $socio;
@@ -87,7 +103,8 @@ class Videoclub {
         return null;
     }
 
-    private function buscarProducto($numeroSoporte) {
+    private function buscarProducto($numeroSoporte)
+    {
         foreach ($this->productos as $producto) {
             if ($producto->getNumero() === $numeroSoporte) {
                 return $producto;
@@ -96,4 +113,3 @@ class Videoclub {
         return null;
     }
 }
-?>
