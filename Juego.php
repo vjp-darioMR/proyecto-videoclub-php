@@ -1,4 +1,5 @@
 <?php
+namespace Dwes\ProyectoVideoclub;
 require_once "Soporte.php";
 
 class Juego extends Soporte implements Resumible {

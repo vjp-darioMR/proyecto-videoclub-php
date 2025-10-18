@@ -1,8 +1,9 @@
 <?php
-include "Soporte.php";
-include "CintaVideo.php";
-include "Dvd.php";
-include "Juego.php";
+//Cambiamos los require_once por use para cargar las clases
+use Dwes\ProyectoVideoclub\Soporte;
+use Dwes\ProyectoVideoclub\CintaVideo;
+use Dwes\ProyectoVideoclub\Dvd;
+use Dwes\ProyectoVideoclub\Juego;
 
 $Soporte1 = new Soporte("Tenet", 22, 3);
 echo "<h3>" . $Soporte1->getTitulo() . "</h3>"; 

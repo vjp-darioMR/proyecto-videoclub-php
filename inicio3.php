@@ -1,5 +1,6 @@
 <?php
-include_once "Videoclub.php"; // No incluimos nada más
+//Cambiamos el require_once por use para cargar las clases
+use Dwes\ProyectoVideoclub\Videoclub;
 
 $vc = new Videoclub("Severo 8A"); 
 

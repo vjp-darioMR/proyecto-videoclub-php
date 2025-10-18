@@ -1,4 +1,5 @@
 <?php
+namespace Dwes\ProyectoVideoclub;
 require_once "Soporte.php";
 require_once "CintaVideo.php";
 require_once "Dvd.php";
