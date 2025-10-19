@@ -1,5 +1,7 @@
 <?php
 //Cambiamos el require_once por use para cargar las clases
+require_once("autoload.php");
+
 use Dwes\ProyectoVideoclub\Videoclub;
 
 $vc = new Videoclub("Severo 8A"); 
