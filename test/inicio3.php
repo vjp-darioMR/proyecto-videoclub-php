@@ -1,38 +1,121 @@
-<?php
-//Cambiamos el require_once por use para cargar las clases
-require_once("../autoload.php");
+<!DOCTYPE html>
+<html lang="es">
 
-use Dwes\ProyectoVideoclub\Videoclub;
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto VideoClub - PHP</title>
+    <!-- Bootstrap y Boostrap icons -->
+    <link rel="stylesheet" href="../vendor/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="../vendor/styles/custom.css">
+</head>
 
-$vc = new Videoclub("Severo 8A"); 
+<body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><i class="bi bi-film"></i> Videoclub</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02"
+                aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor02">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="bi bi-house"></i> Inicio
+                            <span class="visually-hidden">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="bi bi-bookmark"></i> Sobre el proyecto</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-//voy a incluir unos cuantos soportes de prueba 
-//Aplicando encadenamiento
-$vc->incluirJuego("God of War", 19.99, "PS4", 1, 1)
-->incluirJuego("The Last of Us Part II", 49.99, "PS4", 1, 1)
-->incluirDvd("Torrente", 4.5, "es","16:9")
-->incluirDvd("Origen", 4.5, "es,en,fr", "16:9")
-->incluirDvd("El Imperio Contraataca", 3, "es,en","16:9")
-->incluirCintaVideo("Los cazafantasmas", 3.5, 107) 
-->incluirCintaVideo("El nombre de la Rosa", 1.5, 140);
+    <div class="container">
+        <div class="col">
 
-//listo los productos 
-$vc->listarProductos(); 
+            <?php
+            //Requerimos el autoload
+            require_once("../autoload.php");
+            //Nombre de espacio...
+            use Dwes\ProyectoVideoclub\Videoclub;
 
-//voy a crear algunos socios 
-//Aplicando encadenamiento
-$vc->incluirSocio("Amancio Ortega")->incluirSocio("Pablo Picasso", 2);
+            //Creamos el videoclub
+            $vc = new Videoclub("Severo 8A");
+            //voy a incluir unos cuantos soportes de prueba
+            //Aplicando encadenamiento
+            $vc->incluirJuego("God of War", 19.99, "PS4", 1, 1)
+                ->incluirJuego("The Last of Us Part II", 49.99, "PS4", 1, 1)
+                ->incluirDvd("Torrente", 4.5, "es", "16:9")
+                ->incluirDvd("Origen", 4.5, "es,en,fr", "16:9")
+                ->incluirDvd("El Imperio Contraataca", 3, "es,en", "16:9")
+                ->incluirCintaVideo("Los cazafantasmas", 3.5, 107)
+                ->incluirCintaVideo("El nombre de la Rosa", 1.5, 140);
 
-//Aplicamos encadenamiento
-$vc->alquilaSocioProducto(1,2)->alquilaSocioProducto(1,3);
-//Despues de esta operacion no aplico mas encadenamiento por que hay observaciones...
+            ?>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <h2 class="mt-4 mb-4"><i class="bi bi-bag"></i> Productos disponibles</h2>
+                        <!-- Grid con bootstrap para mostrar varias tarjetas -->
+                        <div class="row row-cols-1 row-cols-md-4 g-4">
+                            <?php
+                            // Listamos los productos (Se renderizan ahora con HTML y Bootstrap)
+                            $vc->listarProductos();
+                            ?>
 
-//alquilo otra vez el soporte 2 al socio 1. 
-// no debe dejarme porque ya lo tiene alquilado 
-$vc->alquilaSocioProducto(1,2); 
-//alquilo el soporte 6 al socio 1. 
-//no se puede porque el socio 1 tiene 2 alquileres como máximo 
-$vc->alquilaSocioProducto(1,6); 
+                        </div>
+                        <hr>
+                        <?php
+                        //voy a crear algunos socios 
+                        //Aplicando encadenamiento
+                        $vc->incluirSocio("Amancio Ortega")->incluirSocio("Pablo Picasso", 2);
+                        //Aplicamos encadenamiento
+                        $vc->alquilaSocioProducto(1, 2)->alquilaSocioProducto(1, 3);
+                        //Despues de esta operacion no aplico mas encadenamiento por que hay observaciones...
 
-//listo los socios 
-$vc->listarSocios();
+                        //alquilo otra vez el soporte 2 al socio 1. 
+                        // no debe dejarme porque ya lo tiene alquilado 
+                        $vc->alquilaSocioProducto(1, 2);
+                        //alquilo el soporte 6 al socio 1. 
+                        //no se puede porque el socio 1 tiene 2 alquileres como máximo 
+                        $vc->alquilaSocioProducto(1, 6);
+                        ?>
+                        <h2 class="mt-4 mb-4"><i class="bi bi-person-check"></i> Socios</h2>
+                        <!-- Grid con bootstrap para mostrar varias tarjetas -->
+                        <div class="row row-cols-1 row-cols-md-4 g-4">
+                            <?php
+                            // Listamos los productos (Se renderizan ahora con HTML y Bootstrap)
+                            $vc->listarSocios();
+                            ?>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <footer class="bg-dark text-light text-center py-3 mt-auto">
+        <div class="container">
+            <p class="mb-0">
+                Proyecto Videoclub PHP - Darío Muñoz Rodríguez / Yago García Alonso
+            </p>
+            <p class="mb-0">
+                <small>Diseño realizado por Darío, con Bootstrap v5.3.8 y el tema <a class="link link-primary" href="https://bootswatch.com/brite/">Brite</a></small>
+            </p>
+        </div>
+    </footer>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="../vendor/scripts/bootstrap.min.js"></script>
+</body>
+
+</html>

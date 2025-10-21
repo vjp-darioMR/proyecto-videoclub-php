@@ -57,14 +57,21 @@ class Videoclub
     private function incluirProducto($producto)
     {
         $this->productos[] = $producto;
-        echo "Producto " . $producto->getTitulo() . " (Número: " . $producto->getNumero() . ") incluido con éxito.<br>";
+        
+        echo '<div class="alert alert-dismissible alert-success mt-3">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong><i class="bi bi-check2"></i> Producto incluido!</strong> El producto "' . $producto->getTitulo() . '" (Número: ' . $producto->getNumero() . ') ha sido incluido con éxito.
+        </div>';
     }
 
     public function incluirSocio($nombre, $maxAlquilerConcurrerte = 2)
     {
         $socio = new Cliente($nombre, ++$this->numSocios, $maxAlquilerConcurrerte);
         $this->socios[] = $socio;
-        echo "Socio " . $nombre . " (Número: " . $socio->getNumero() . ") incluido con éxito.<br>";
+        echo '<div class="alert alert-dismissible alert-warning mt-3">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong><i class="bi bi-person-check"></i> Socio incluido!</strong> El socio "' . $nombre . '" (Número: ' . $socio->getNumero() . ') ha sido incluido con éxito.
+        </div>';
         return $this;
     }
 
@@ -74,28 +81,46 @@ class Videoclub
             $socio = $this->buscarSocio($numeroCliente);
             $producto = $this->buscarProducto($numeroSoporte);
             $socio->alquilar($producto);
-            echo "Alquiler realizado: Socio " . $socio->getNumero() . " ha alquilado " . $producto->getTitulo() . ".<br>";
+            echo '<div class="alert alert-dismissible alert-info mt-3">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong><i class="bi bi-bag-check"></i> Alquiler realizado!</strong> Socio <span class="badge bg-info text-dark">' . $socio->getNumero() . '</span> ha alquilado <span class="badge bg-secondary">' . $producto->getTitulo() . '</span> con éxito.
+            </div>';
             return $this;
         } catch (ClienteNoEncontradoException $e) {
-            echo "Error: " . $e->getMessage() . "<br>";
+            echo '<div class="alert alert-dismissible alert-danger mt-3">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong><i class="bi bi-exclamation-triangle"></i> Error:</strong> ' . $e->getMessage() . '
+            </div>';
         } catch (SoporteNoEncontradoException $e) {
-            echo "Error: " . $e->getMessage() . "<br>";
+            echo '<div class="alert alert-dismissible alert-danger mt-3">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong><i class="bi bi-exclamation-triangle"></i> Error:</strong> ' . $e->getMessage() . '
+            </div>';
         } catch (SoporteYaAlquiladoException $e) {
-            echo "Error: " . $e->getMessage() . "<br>";
+            echo '<div class="alert alert-dismissible alert-danger mt-3">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong><i class="bi bi-x-circle"></i> Ya alquilado:</strong> ' . $e->getMessage() . '
+            </div>';
         } catch (CupoSuperadoException $e) {
-            echo "Error: " . $e->getMessage() . "<br>";
+            echo '<div class="alert alert-dismissible alert-danger mt-3">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong><i class="bi bi-person-x"></i> Cupo superado:</strong> ' . $e->getMessage() . '
+            </div>';
         } catch (VideoclubException $e) {
-            echo "Error general: " . $e->getMessage() . "<br>";
+            echo '<div class="alert alert-dismissible alert-danger mt-3">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong><i class="bi bi-exclamation-triangle"></i> Error general:</strong> ' . $e->getMessage() . '
+            </div>';
         }
     }
 
     public function alquilarSocioProductos($numSocio, $numerosProductos)
     {
-        //Try catch para manejar las excepciones que hemos creado
+        // Try catch para manejar las excepciones que hemos creado
         try {
-            //Buscamos el socio por su número
+            // Buscamos el socio por su número
             $socio = $this->buscarSocio($numSocio);
-            //Inicializamos los productos como un array vacío
+            // Inicializamos los productos como un array vacío
             $productos = [];
             // Verificamos la disponibilidad de cada producto
             foreach ($numerosProductos as $numProd) {
@@ -103,7 +128,7 @@ class Videoclub
                 $prod = $this->buscarProducto($numProd);
                 // Verificamos si el producto ya está alquilado
                 if ($prod->alquilado) {
-                    //Entonces lanzamos la excepción
+                    // Entonces lanzamos la excepción
                     throw new SoporteYaAlquiladoException("El soporte " . $prod->getTitulo() . " ya está alquilado.");
                 }
                 // Si está disponible, lo añadimos al array de productos a alquilar
@@ -117,19 +142,37 @@ class Videoclub
             foreach ($productos as $prod) {
                 $socio->alquilar($prod);
             }
-            echo "Alquileres realizados: Socio " . $socio->getNumero() . " ha alquilado " . count($productos) . " productos.<br>";
-            //Despues del echo, devuelve this para permitir encadenar llamadas
+            // Después del echo, devuelve this para permitir encadenar llamadas
+            echo '<div class="alert alert-dismissible alert-info mt-3">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong><i class="bi bi-bag-check"></i> Alquileres realizados!</strong> Socio <span class="badge bg-info text-dark">' . $socio->getNumero() . '</span> ha alquilado <span class="badge bg-secondary">' . count($productos) . ' productos</span> con éxito.
+            </div>';
             return $this;
         } catch (ClienteNoEncontradoException $e) {
-            echo "Error: " . $e->getMessage() . "<br>";
+            echo '<div class="alert alert-dismissible alert-danger mt-3">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong><i class="bi bi-exclamation-triangle"></i> Error:</strong> ' . $e->getMessage() . '
+            </div>';
         } catch (SoporteNoEncontradoException $e) {
-            echo "Error: " . $e->getMessage() . "<br>";
+            echo '<div class="alert alert-dismissible alert-danger mt-3">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong><i class="bi bi-exclamation-triangle"></i> Error:</strong> ' . $e->getMessage() . '
+            </div>';
         } catch (SoporteYaAlquiladoException $e) {
-            echo "Error: " . $e->getMessage() . "<br>";
+            echo '<div class="alert alert-dismissible alert-danger mt-3">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong><i class="bi bi-x-circle"></i> Ya alquilado:</strong> ' . $e->getMessage() . '
+            </div>';
         } catch (CupoSuperadoException $e) {
-            echo "Error: " . $e->getMessage() . "<br>";
+            echo '<div class="alert alert-dismissible alert-danger mt-3">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong><i class="bi bi-person-x"></i> Cupo superado:</strong> ' . $e->getMessage() . '
+            </div>';
         } catch (VideoclubException $e) {
-            echo "Error general: " . $e->getMessage() . "<br>";
+            echo '<div class="alert alert-dismissible alert-danger mt-3">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong><i class="bi bi-exclamation-triangle"></i> Error general:</strong> ' . $e->getMessage() . '
+            </div>';
         }
     }
 
@@ -139,14 +182,26 @@ class Videoclub
             $socio = $this->buscarSocio($numSocio);
             $producto = $this->buscarProducto($numeroProducto);
             $socio->devolver($numeroProducto);
-            echo "Devolución realizada: Socio " . $socio->getNumero() . " ha devuelto " . $producto->getTitulo() . ".<br>";
+            echo '<div class="alert alert-dismissible alert-success mt-3">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong><i class="bi bi-arrow-return-left"></i> Devolución realizada!</strong> Socio <span class="badge bg-success">' . $socio->getNumero() . '</span> ha devuelto <span class="badge bg-secondary">' . $producto->getTitulo() . '</span> con éxito.
+            </div>';
             return $this;
         } catch (ClienteNoEncontradoException $e) {
-            echo "Error: " . $e->getMessage() . "<br>";
+            echo '<div class="alert alert-dismissible alert-danger mt-3">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong><i class="bi bi-exclamation-triangle"></i> Error:</strong> ' . $e->getMessage() . '
+            </div>';
         } catch (SoporteNoEncontradoException $e) {
-            echo "Error: " . $e->getMessage() . "<br>";
+            echo '<div class="alert alert-dismissible alert-danger mt-3">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong><i class="bi bi-exclamation-triangle"></i> Error:</strong> ' . $e->getMessage() . '
+            </div>';
         } catch (VideoclubException $e) {
-            echo "Error general: " . $e->getMessage() . "<br>";
+            echo '<div class="alert alert-dismissible alert-danger mt-3">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong><i class="bi bi-exclamation-triangle"></i> Error general:</strong> ' . $e->getMessage() . '
+            </div>';
         }
     }
 
@@ -162,27 +217,46 @@ class Videoclub
                 }
                 $productos[] = $prod;
             }
-            // Todos alquilados por el socio, proceder a devolver
             foreach ($productos as $prod) {
                 $socio->devolver($prod->getNumero());
             }
-            echo "Devoluciones realizadas: Socio " . $socio->getNumero() . " ha devuelto " . count($productos) . " productos.<br>";
+            echo '<div class="alert alert-dismissible alert-success mt-3">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong><i class="bi bi-arrow-return-left"></i> Devoluciones realizadas!</strong> Socio <span class="badge bg-success">' . $socio->getNumero() . '</span> ha devuelto <span class="badge bg-secondary">' . count($productos) . ' productos</span> con éxito.
+            </div>';
             return $this;
         } catch (ClienteNoEncontradoException $e) {
-            echo "Error: " . $e->getMessage() . "<br>";
+            echo '<div class="alert alert-dismissible alert-danger mt-3">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong><i class="bi bi-exclamation-triangle"></i> Error:</strong> ' . $e->getMessage() . '
+            </div>';
         } catch (SoporteNoEncontradoException $e) {
-            echo "Error: " . $e->getMessage() . "<br>";
+            echo '<div class="alert alert-dismissible alert-danger mt-3">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong><i class="bi bi-exclamation-triangle"></i> Error:</strong> ' . $e->getMessage() . '
+            </div>';
         } catch (VideoclubException $e) {
-            echo "Error general: " . $e->getMessage() . "<br>";
+            echo '<div class="alert alert-dismissible alert-danger mt-3">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong><i class="bi bi-exclamation-triangle"></i> Error general:</strong> ' . $e->getMessage() . '
+            </div>';
         }
     }
 
+
     public function listarProductos()
     {
-        echo "<h3>Lista de Productos</h3>";
         if (count($this->productos) > 0) {
             foreach ($this->productos as $producto) {
-                echo "- " . $producto->getTitulo() . " (Número: " . $producto->getNumero() . ", Precio: " . $producto->getPrecio() . " euros)<br>";
+                echo '<div class="col">
+                        <div class="card border-primary mb-3 mx-2" style="max-width: 20rem;">
+                            <div class="card-header">' . $producto->getTitulo() . ' <span class="badge rounded-pill bg-primary">' . $producto->getNumero() . '</span></div>
+                            <div class="card-body">
+                                <h4 class="card-title text-center">Precio: ' . $producto->getPrecio() . ' euros</h4>
+                                <button type="button" class="btn btn-outline-success w-100">Alquilar</button>
+                            </div>
+                        </div>
+                    </div>';
             }
         } else {
             echo "No hay productos registrados.<br>";
@@ -191,11 +265,17 @@ class Videoclub
 
     public function listarSocios()
     {
-        echo "<h3>Lista de Socios</h3>";
         if (count($this->socios) > 0) {
             foreach ($this->socios as $socio) {
-                echo "- " . $socio->getNombre() . " (Número: " . $socio->getNumero() . ", Alquileres: " . $socio->getNumSoportesAlquilados() . ")<br>";
-                $socio->listarAlquileres();
+                echo '<div class="col">
+                        <div class="card border-warning mb-3 mx-2" style="max-width: 20rem;">
+                            <div class="card-header">' . $socio->getNombre() . ' <span class="badge rounded-pill bg-warning text-dark">' . $socio->getNumero() . '</span></div>
+                            <div class="card-body">
+                                <h4 class="card-title text-center">Alquileres: ' . $socio->getNumSoportesAlquilados() . '</h4>
+                                <button type="button" class="btn btn-outline-primary w-100">Ver detalles</button>
+                            </div>
+                        </div>
+                    </div>';
             }
         } else {
             echo "No hay socios registrados.<br>";
