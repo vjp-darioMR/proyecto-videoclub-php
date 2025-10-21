@@ -10,15 +10,15 @@ class Cliente
 {
     private $nombre;
     private $numero;
-    private $maxAlquilerConcurrerte;
+    private $maxAlquilerConcurrente;
     private $numSoportesAlquilados = 0;
     private $soportesAlquilados = [];
 
-    public function __construct($nombre, $numero, $maxAlquilerConcurrerte = 3)
+    public function __construct($nombre, $numero, $maxAlquilerConcurrente = 3)
     {
         $this->nombre = $nombre;
         $this->numero = $numero;
-        $this->maxAlquilerConcurrerte = $maxAlquilerConcurrerte;
+        $this->maxAlquilerConcurrente = $maxAlquilerConcurrente;
     }
 
     public function getNumero()
@@ -36,9 +36,9 @@ class Cliente
         return $this->numSoportesAlquilados;
     }
 
-    public function getMaxAlquilerConcurrerte()
+    public function getMaxAlquilerConcurrente()
     {
-        return $this->maxAlquilerConcurrerte;
+        return $this->maxAlquilerConcurrente;
     }
 
 
@@ -61,8 +61,8 @@ class Cliente
             //Lanzamos excepcion
             throw new SoporteYaAlquiladoException("El soporte ya está alquilado por este cliente.");
         }
-        if ($this->numSoportesAlquilados >= $this->maxAlquilerConcurrerte) {
-            throw new CupoSuperadoException("No se puede alquilar: se ha superado el maximo de " . $this->maxAlquilerConcurrerte . " alquileres.");
+        if ($this->numSoportesAlquilados >= $this->maxAlquilerConcurrente) {
+            throw new CupoSuperadoException("No se puede alquilar: se ha superado el maximo de " . $this->maxAlquilerConcurrente . " alquileres.");
         }
         $this->soportesAlquilados[] = $soporte;
         $this->numSoportesAlquilados++;

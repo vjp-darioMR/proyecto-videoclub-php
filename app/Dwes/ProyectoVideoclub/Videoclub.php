@@ -133,6 +133,50 @@ class Videoclub
         }
     }
 
+    public function devolverSocioProducto($numSocio, $numeroProducto)
+    {
+        try {
+            $socio = $this->buscarSocio($numSocio);
+            $producto = $this->buscarProducto($numeroProducto);
+            $socio->devolver($numeroProducto);
+            echo "Devolución realizada: Socio " . $socio->getNumero() . " ha devuelto " . $producto->getTitulo() . ".<br>";
+            return $this;
+        } catch (ClienteNoEncontradoException $e) {
+            echo "Error: " . $e->getMessage() . "<br>";
+        } catch (SoporteNoEncontradoException $e) {
+            echo "Error: " . $e->getMessage() . "<br>";
+        } catch (VideoclubException $e) {
+            echo "Error general: " . $e->getMessage() . "<br>";
+        }
+    }
+
+    public function devolverSocioProductos($numSocio, $numerosProductos)
+    {
+        try {
+            $socio = $this->buscarSocio($numSocio);
+            $productos = [];
+            foreach ($numerosProductos as $numProd) {
+                $prod = $this->buscarProducto($numProd);
+                if (!$socio->tieneAlquilado($prod)) {
+                    throw new SoporteNoEncontradoException("El soporte " . $prod->getTitulo() . " no está alquilado por este socio.");
+                }
+                $productos[] = $prod;
+            }
+            // Todos alquilados por el socio, proceder a devolver
+            foreach ($productos as $prod) {
+                $socio->devolver($prod->getNumero());
+            }
+            echo "Devoluciones realizadas: Socio " . $socio->getNumero() . " ha devuelto " . count($productos) . " productos.<br>";
+            return $this;
+        } catch (ClienteNoEncontradoException $e) {
+            echo "Error: " . $e->getMessage() . "<br>";
+        } catch (SoporteNoEncontradoException $e) {
+            echo "Error: " . $e->getMessage() . "<br>";
+        } catch (VideoclubException $e) {
+            echo "Error general: " . $e->getMessage() . "<br>";
+        }
+    }
+
     public function listarProductos()
     {
         echo "<h3>Lista de Productos</h3>";
