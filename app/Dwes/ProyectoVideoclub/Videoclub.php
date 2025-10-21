@@ -1,6 +1,12 @@
 <?php
 namespace Dwes\ProyectoVideoclub;
 
+use Dwes\ProyectoVideoclub\Util\ClienteNoEncontradoException;
+use Dwes\ProyectoVideoclub\Util\SoporteNoEncontradoException;
+use Dwes\ProyectoVideoclub\Util\SoporteYaAlquiladoException;
+use Dwes\ProyectoVideoclub\Util\CupoSuperadoException;
+use Dwes\ProyectoVideoclub\Util\VideoclubException;
+
 class Videoclub
 {
     private $nombre;
@@ -51,16 +57,22 @@ class Videoclub
 
     public function alquilaSocioProducto($numeroCliente, $numeroSoporte)
     {
-        $socio = $this->buscarSocio($numeroCliente);
-        $producto = $this->buscarProducto($numeroSoporte);
-
-        if ($socio && $producto) {
-            if ($socio->alquilar($producto)) {
-                echo "Alquiler realizado: Socio " . $socio->getNumero() . " ha alquilado " . $producto->getTitulo() . ".<br>";
-                return $this;
-            }
-        } else {
-            echo "Error: Socio o producto no encontrado.<br>";
+        try {
+            $socio = $this->buscarSocio($numeroCliente);
+            $producto = $this->buscarProducto($numeroSoporte);
+            $socio->alquilar($producto);
+            echo "Alquiler realizado: Socio " . $socio->getNumero() . " ha alquilado " . $producto->getTitulo() . ".<br>";
+            return $this;
+        } catch (ClienteNoEncontradoException $e) {
+            echo "Error: " . $e->getMessage() . "<br>";
+        } catch (SoporteNoEncontradoException $e) {
+            echo "Error: " . $e->getMessage() . "<br>";
+        } catch (SoporteYaAlquiladoException $e) {
+            echo "Error: " . $e->getMessage() . "<br>";
+        } catch (CupoSuperadoException $e) {
+            echo "Error: " . $e->getMessage() . "<br>";
+        } catch (VideoclubException $e) {
+            echo "Error general: " . $e->getMessage() . "<br>";
         }
     }
 
@@ -96,7 +108,7 @@ class Videoclub
                 return $socio;
             }
         }
-        return null;
+        throw new ClienteNoEncontradoException("Socio con número " . $numeroCliente . " no encontrado.");
     }
 
     private function buscarProducto($numeroSoporte)
@@ -106,6 +118,6 @@ class Videoclub
                 return $producto;
             }
         }
-        return null;
+        throw new SoporteNoEncontradoException("Producto con número " . $numeroSoporte . " no encontrado.");
     }
 }

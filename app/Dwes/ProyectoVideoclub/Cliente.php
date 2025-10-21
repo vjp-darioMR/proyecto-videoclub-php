@@ -2,6 +2,10 @@
 namespace Dwes\ProyectoVideoclub;
 require_once "Soporte.php";
 
+use Dwes\ProyectoVideoclub\Util\SoporteYaAlquiladoException;
+use Dwes\ProyectoVideoclub\Util\CupoSuperadoException;
+use Dwes\ProyectoVideoclub\Util\SoporteNoEncontradoException;
+
 class Cliente
 {
     private $nombre;
@@ -49,16 +53,14 @@ class Cliente
     public function alquilar(Soporte $soporte)
     {
         if ($this->tieneAlquilado($soporte)) {
-            echo "No se puede alquilar: el soporte ya está alquilado.<br>";
-            return false;
+            //Lanzamos excepcion
+            throw new SoporteYaAlquiladoException("El soporte ya está alquilado por este cliente.");
         }
         if ($this->numSoportesAlquilados >= $this->maxAlquilerConcurrerte) {
-            echo "No se puede alquilar: se ha superado el maximo de " . $this->maxAlquilerConcurrerte . " alquileres.<br>";
-            return false;
+            throw new CupoSuperadoException("No se puede alquilar: se ha superado el maximo de " . $this->maxAlquilerConcurrerte . " alquileres.");
         }
         $this->soportesAlquilados[] = $soporte;
         $this->numSoportesAlquilados++;
-        echo "Soporte " . $soporte->getTitulo() . " alquilado. Total de alquileres: " . $this->numSoportesAlquilados . "<br>";
         return $this;
     }
 
@@ -69,12 +71,10 @@ class Cliente
                 unset($this->soportesAlquilados[$indice]);
                 $this->soportesAlquilados = array_values($this->soportesAlquilados);
                 $this->numSoportesAlquilados--;
-                echo "Soporte con número " . $numSoporte . " (" . $soporte->getTitulo() . ") devuelto con éxito. Total de alquileres: " . $this->numSoportesAlquilados . "<br>";
-                return true;
+                return $this;
             }
         }
-        echo "No se puede devolver: el soporte con número " . $numSoporte . " no está alquilado.<br>";
-        return false;
+        throw new SoporteNoEncontradoException("No se puede devolver: el soporte con número " . $numSoporte . " no está alquilado.");
     }
 
     public function listarAlquileres()

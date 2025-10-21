@@ -1,6 +1,6 @@
 <?php
 
-namespace Dwes\ProyectoVideoclub;
+namespace Dwes\ProyectoVideoclub\Util;
 class SoporteYaAlquiladoException extends VideoclubException {
 
 }

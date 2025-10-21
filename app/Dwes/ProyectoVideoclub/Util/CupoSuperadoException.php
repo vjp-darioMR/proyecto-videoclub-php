@@ -1,5 +1,5 @@
 <?php
-namespace Dwes\ProyectoVideoclub;
+namespace Dwes\ProyectoVideoclub\Util;
 class CupoSuperadoException extends VideoclubException {
 
 }
