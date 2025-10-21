@@ -36,6 +36,11 @@ class Cliente
         return $this->numSoportesAlquilados;
     }
 
+    public function getMaxAlquilerConcurrerte()
+    {
+        return $this->maxAlquilerConcurrerte;
+    }
+
 
     public function tieneAlquilado($soporte)
     {
@@ -61,6 +66,7 @@ class Cliente
         }
         $this->soportesAlquilados[] = $soporte;
         $this->numSoportesAlquilados++;
+        //Cambiamos la propiedad alquilado del soporte a true
         $soporte->alquilado = true;
         return $this;
     }
@@ -69,6 +75,7 @@ class Cliente
     {
         foreach ($this->soportesAlquilados as $indice => $soporte) {
             if ($soporte->getNumero() === $numSoporte) {
+                //Cambiamos la propiedad alquilado del soporte a false
                 $soporte->alquilado = false;
                 unset($this->soportesAlquilados[$indice]);
                 $this->soportesAlquilados = array_values($this->soportesAlquilados);

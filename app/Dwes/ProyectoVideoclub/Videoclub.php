@@ -89,6 +89,50 @@ class Videoclub
         }
     }
 
+    public function alquilarSocioProductos($numSocio, $numerosProductos)
+    {
+        //Try catch para manejar las excepciones que hemos creado
+        try {
+            //Buscamos el socio por su número
+            $socio = $this->buscarSocio($numSocio);
+            //Inicializamos los productos como un array vacío
+            $productos = [];
+            // Verificamos la disponibilidad de cada producto
+            foreach ($numerosProductos as $numProd) {
+                // Buscamos el producto por su número
+                $prod = $this->buscarProducto($numProd);
+                // Verificamos si el producto ya está alquilado
+                if ($prod->alquilado) {
+                    //Entonces lanzamos la excepción
+                    throw new SoporteYaAlquiladoException("El soporte " . $prod->getTitulo() . " ya está alquilado.");
+                }
+                // Si está disponible, lo añadimos al array de productos a alquilar
+                $productos[] = $prod;
+            }
+            // Verificar si el socio puede alquilar todos
+            if ($socio->getNumSoportesAlquilados() + count($productos) > $socio->getMaxAlquilerConcurrerte()) {
+                throw new CupoSuperadoException("No se pueden alquilar todos los productos: se superaría el máximo de alquileres.");
+            }
+            // Todos disponibles, proceder a alquilar
+            foreach ($productos as $prod) {
+                $socio->alquilar($prod);
+            }
+            echo "Alquileres realizados: Socio " . $socio->getNumero() . " ha alquilado " . count($productos) . " productos.<br>";
+            //Despues del echo, devuelve this para permitir encadenar llamadas
+            return $this;
+        } catch (ClienteNoEncontradoException $e) {
+            echo "Error: " . $e->getMessage() . "<br>";
+        } catch (SoporteNoEncontradoException $e) {
+            echo "Error: " . $e->getMessage() . "<br>";
+        } catch (SoporteYaAlquiladoException $e) {
+            echo "Error: " . $e->getMessage() . "<br>";
+        } catch (CupoSuperadoException $e) {
+            echo "Error: " . $e->getMessage() . "<br>";
+        } catch (VideoclubException $e) {
+            echo "Error general: " . $e->getMessage() . "<br>";
+        }
+    }
+
     public function listarProductos()
     {
         echo "<h3>Lista de Productos</h3>";
