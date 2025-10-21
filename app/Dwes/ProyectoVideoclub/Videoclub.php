@@ -15,9 +15,22 @@ class Videoclub
     private $socios = [];
     private $numSocios = 0;
 
+    public $numProductosAlquilados = 0;
+    public $numTotalAlquileres = 0;
+
     public function __construct($nombre)
     {
         $this->nombre = $nombre;
+    }
+
+    public function getNumProductosAlquilados()
+    {
+        return $this->numProductosAlquilados;
+    }
+
+    public function getNumTotalAlquileres()
+    {
+        return $this->numTotalAlquileres;
     }
 
     public function incluirCintaVideo($titulo, $precio, $duracion)

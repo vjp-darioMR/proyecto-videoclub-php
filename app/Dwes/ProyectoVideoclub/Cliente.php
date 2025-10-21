@@ -61,6 +61,7 @@ class Cliente
         }
         $this->soportesAlquilados[] = $soporte;
         $this->numSoportesAlquilados++;
+        $soporte->alquilado = true;
         return $this;
     }
 
@@ -68,6 +69,7 @@ class Cliente
     {
         foreach ($this->soportesAlquilados as $indice => $soporte) {
             if ($soporte->getNumero() === $numSoporte) {
+                $soporte->alquilado = false;
                 unset($this->soportesAlquilados[$indice]);
                 $this->soportesAlquilados = array_values($this->soportesAlquilados);
                 $this->numSoportesAlquilados--;
