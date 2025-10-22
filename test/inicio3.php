@@ -30,6 +30,14 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#"><i class="bi bi-bookmark"></i> Sobre el proyecto</a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="bi bi-filetype-php"></i> Pruebas</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="inicio.php">Inicio.php</a>
+                            <a class="dropdown-item" href="inicio2.php">Inicio2.php</a>
+                            <a class="dropdown-item" href="inicio3.php">Inicio3.php</a>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>

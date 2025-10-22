@@ -88,14 +88,23 @@ class Cliente
 
     public function listarAlquileres()
     {
-        echo "Número de alquileres: " . $this->numSoportesAlquilados . "<br>";
+        echo '<h2 class="mt-4 mb-4"><i class="bi bi-bag"></i> Alquileres: ' . $this->numSoportesAlquilados . '</h2>';
         if ($this->numSoportesAlquilados > 0) {
-            echo "Soportes alquilados:<br>";
+            echo '<div class="row row-cols-1 row-cols-md-3 g-3">';
             foreach ($this->soportesAlquilados as $soporte) {
-                echo "- " . $soporte->getTitulo() . " (Número: " . $soporte->getNumero() . ")<br>";
+                echo '<div class="col">
+                        <div class="card border-success mb-3 mx-2" style="max-width: 20rem;">
+                            <div class="card-header">' . $soporte->getTitulo() . ' <span class="badge rounded-pill bg-success">' . $soporte->getNumero() . '</span></div>
+                            <div class="card-body text-center">
+                                <h4 class="card-title text-center">Precio: ' . $soporte->getPrecio() . ' €</h4>
+                                <span class="badge bg-success ">Alquilado</span>
+                            </div>
+                        </div>
+                    </div>';
             }
+            echo '</div>';
         } else {
-            echo "No hay alquileres registrados.<br>";
+            echo '<div class="alert alert-info">No hay alquileres registrados.</div>';
         }
     }
 
