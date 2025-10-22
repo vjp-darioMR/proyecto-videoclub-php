@@ -11,35 +11,31 @@
 	<link rel="stylesheet" href="../vendor/styles/custom.css">
 </head>
 <body class="d-flex flex-column min-vh-100">
-	<nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="#"><i class="bi bi-film"></i> Videoclub</a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02"
-				aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarColor02">
-				<ul class="navbar-nav me-auto">
-					<li class="nav-item">
-						<a class="nav-link active" href="#"><i class="bi bi-house"></i> Inicio
-							<span class="visually-hidden">(current)</span>
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#"><i class="bi bi-bookmark"></i> Sobre el proyecto</a>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="bi bi-filetype-php"></i> Pruebas</a>
-						<div class="dropdown-menu">
-							<a class="dropdown-item" href="inicio.php">Inicio.php</a>
-							<a class="dropdown-item" href="inicio2.php">Inicio2.php</a>
-							<a class="dropdown-item" href="inicio3.php">Inicio3.php</a>
-						</div>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><i class="bi bi-film"></i> Videoclub</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02"
+                aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor02">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.php"><i class="bi bi-house"></i> Inicio
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="bi bi-filetype-php"></i> Pruebas</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="inicio.php">Inicio.php</a>
+                            <a class="dropdown-item" href="inicio2.php">Inicio2.php</a>
+                            <a class="dropdown-item" href="inicio3.php">Inicio3.php</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 	<div class="container">
 		<div class="col">
 			<?php

@@ -23,12 +23,8 @@
             <div class="collapse navbar-collapse" id="navbarColor02">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#"><i class="bi bi-house"></i> Inicio
-                            <span class="visually-hidden">(current)</span>
+                        <a class="nav-link" href="../index.php"><i class="bi bi-house"></i> Inicio
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="bi bi-bookmark"></i> Sobre el proyecto</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="bi bi-filetype-php"></i> Pruebas</a>

@@ -3,10 +3,28 @@
     margin: 10px;
     border-radius: 25px;
     backdrop-filter: blur(10px);
-    background-color: rgba(18, 18, 18, 0.754) !important; /* Fondo semitransparente , hay que usar !important por que el theming de bootstrap lo sobreescribe*/
+    background-color: rgba(18, 18, 18, 0.754) !important;
+    /* Fondo semitransparente , hay que usar !important por que el theming de bootstrap lo sobreescribe*/
     /* Ademas sticky y eso para que se encaje en la parte superior de la pantalla */
     position: sticky;
-    top: 5px; /* Deja un margen superior */
-    z-index: 1000; /* Asegura que el navbar esté por encima de otros elementos */
+    top: 5px;
+    /* Deja un margen superior */
+    z-index: 1000;
+    /* Asegura que el navbar esté por encima de otros elementos */
 }
+
 /* Ahora el navbar es responsive y elegante */
+
+/* El hero para el landing */
+.hero {
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* Las tabs sin borde porque las de bootstrap tienen */
+.nav-tabs {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+}

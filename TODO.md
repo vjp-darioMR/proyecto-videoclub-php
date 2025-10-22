@@ -8,7 +8,7 @@ https://aitor-medrano.github.io/dwes2122/03phpoo.html#proyecto-videoclub-20
 ---
 ## ( ! ) Mejoras
 - [-] Agregar una documentación robusta y entera
-- [] Comentar de manera técnica y detallada el proyecto
+- [] Comentar de manera técnica y detallada el proyecto (rama develop btw)
 - [x] Reparar inicio .php, el 1 y 2 daban error
     - [x] Reparar inicio2.php
     - [x] Reparar inicio.php
