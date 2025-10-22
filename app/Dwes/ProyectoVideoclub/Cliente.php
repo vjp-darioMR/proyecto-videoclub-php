@@ -96,7 +96,7 @@ class Cliente
     // Muestra los alquileres actuales del cliente
     public function listarAlquileres()
     {
-        echo '<h2 class="mt-4 mb-4"><i class="bi bi-bag"></i> Alquileres: ' . $this->numSoportesAlquilados . '</h2>';
+        echo '<h2 class="mt-4 mb-4"><i class="bi bi-bag"></i> Alquileres de ' . $this->nombre . ': ' . $this->numSoportesAlquilados . '</h2>';
         if ($this->numSoportesAlquilados > 0) {
             echo '<div class="row row-cols-1 row-cols-md-3 g-3">';
             foreach ($this->soportesAlquilados as $soporte) {
