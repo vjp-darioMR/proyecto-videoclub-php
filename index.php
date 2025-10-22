@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Videoclub PHP - Inicio</title>
+    <!-- Bootstrap y Bootstrap Icons -->
     <link rel="stylesheet" href="vendor/styles/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <!-- Estilos personalizados -->
@@ -12,6 +13,7 @@
 </head>
 
 <body class="bg-light d-flex flex-column min-vh-100">
+    <!-- Barra de navegación principal -->
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#"><i class="bi bi-film"></i> Videoclub</a>
@@ -38,11 +40,13 @@
         </div>
     </nav>
 
+    <!-- Contenido principal con pestañas -->
     <main class="hero">
         <div class="container text-center">
             <h1 class="display-4 mb-4">Videoclub PHP</h1>
             <p class="lead mb-4">Aplicación demostrativa de gestión de un videoclub usando PHP y Bootstrap.</p>
 
+            <!-- Navegación por pestañas -->
             <ul class="nav nav-tabs" role="tablist">
                 <div class="w-100 d-flex justify-content-center">
                     <ul class="nav nav-tabs border-0" role="tablist" style="border: none; box-shadow: none; background: transparent;">
@@ -56,6 +60,7 @@
                 </div>
             </ul>
             <div class="tab-content">
+                <!-- Pestaña de testing con accesos directos -->
                 <div class="tab-pane fade active show" id="testing" role="tabpanel">
                     <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
                         <a class="btn btn-primary btn-lg" href="test/inicio.php"><i class="bi bi-play-circle"></i> Ir a inicio.php</a>
@@ -63,10 +68,10 @@
                         <a class="btn btn-success btn-lg" href="test/inicio3.php"><i class="bi bi-controller"></i> Ir a inicio3.php</a>
                     </div>
                 </div>
+                <!-- Pestaña sobre el proyecto -->
                 <div class="tab-pane fade" id="about" role="tabpanel">
                     <div class="col">
                         <h2 class="mt-4 mb-4"><i class="bi bi-info"></i> Sobre el proyecto</h2>
-
                         <div class="col">
                             <div class="card h-100 w-100 shadow-sm">
                                 <div class="card-body">
@@ -86,15 +91,14 @@
                                     </p>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </main>
 
+    <!-- Pie de página -->
     <footer class="bg-dark text-light text-center py-3 mt-auto">
         <div class="container">
             <p class="mb-0">
@@ -106,6 +110,7 @@
         </div>
     </footer>
 
+    <!-- Bootstrap Bundle con Popper -->
     <script src="vendor/scripts/bootstrap.min.js"></script>
 </body>
 

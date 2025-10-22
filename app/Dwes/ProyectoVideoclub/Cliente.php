@@ -8,12 +8,14 @@ use Dwes\ProyectoVideoclub\Util\SoporteNoEncontradoException;
 
 class Cliente
 {
+    // Propiedades principales del cliente
     private $nombre;
     private $numero;
     private $maxAlquilerConcurrente;
     private $numSoportesAlquilados = 0;
     private $soportesAlquilados = [];
 
+    // Constructor: inicializa el cliente
     public function __construct($nombre, $numero, $maxAlquilerConcurrente = 3)
     {
         $this->nombre = $nombre;
@@ -21,6 +23,7 @@ class Cliente
         $this->maxAlquilerConcurrente = $maxAlquilerConcurrente;
     }
 
+    // Métodos para obtener información básica del cliente
     public function getNumero()
     {
         return $this->numero;
@@ -41,7 +44,7 @@ class Cliente
         return $this->maxAlquilerConcurrente;
     }
 
-
+    // Comprueba si el cliente ya tiene alquilado un soporte
     public function tieneAlquilado($soporte)
     {
         foreach ($this->soportesAlquilados as $alquilado) {
@@ -54,11 +57,10 @@ class Cliente
         return false;
     }
 
-
+    // Alquila un soporte si no supera el cupo y no está ya alquilado
     public function alquilar(Soporte $soporte)
     {
         if ($this->tieneAlquilado($soporte)) {
-            //Lanzamos excepcion
             throw new SoporteYaAlquiladoException("El soporte ya está alquilado por este cliente.");
         }
         if ($this->numSoportesAlquilados >= $this->maxAlquilerConcurrente) {
@@ -66,16 +68,15 @@ class Cliente
         }
         $this->soportesAlquilados[] = $soporte;
         $this->numSoportesAlquilados++;
-        //Cambiamos la propiedad alquilado del soporte a true
         $soporte->alquilado = true;
         return $this;
     }
 
+    // Devuelve un soporte alquilado por el cliente
     public function devolver($numSoporte)
     {
         foreach ($this->soportesAlquilados as $indice => $soporte) {
             if ($soporte->getNumero() === $numSoporte) {
-                //Cambiamos la propiedad alquilado del soporte a false
                 $soporte->alquilado = false;
                 unset($this->soportesAlquilados[$indice]);
                 $this->soportesAlquilados = array_values($this->soportesAlquilados);
@@ -86,6 +87,7 @@ class Cliente
         throw new SoporteNoEncontradoException("No se puede devolver: el soporte con número " . $numSoporte . " no está alquilado.");
     }
 
+    // Muestra los alquileres actuales del cliente
     public function listarAlquileres()
     {
         echo '<h2 class="mt-4 mb-4"><i class="bi bi-bag"></i> Alquileres: ' . $this->numSoportesAlquilados . '</h2>';
@@ -108,6 +110,7 @@ class Cliente
         }
     }
 
+    // Muestra un resumen básico del cliente
     public function muestraResumen()
     {
         echo "Nombre: " . $this->nombre . "<br>";

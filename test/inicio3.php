@@ -13,6 +13,7 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100">
+    <!-- Barra de navegación principal -->
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#"><i class="bi bi-film"></i> Videoclub</a>
@@ -43,15 +44,14 @@
         <div class="col">
 
             <?php
-            //Requerimos el autoload
+            // Requerimos el autoload para cargar las clases automáticamente
             require_once("../autoload.php");
-            //Nombre de espacio...
+            // Usamos el espacio de nombres principal del videoclub
             use Dwes\ProyectoVideoclub\Videoclub;
 
-            //Creamos el videoclub
+            // Creamos el videoclub
             $vc = new Videoclub("Severo 8A");
-            //voy a incluir unos cuantos soportes de prueba
-            //Aplicando encadenamiento
+            // Incluimos varios productos de prueba usando encadenamiento
             $vc->incluirJuego("God of War", 19.99, "PS4", 1, 1)
                 ->incluirJuego("The Last of Us Part II", 49.99, "PS4", 1, 1)
                 ->incluirDvd("Torrente", 4.5, "es", "16:9")
@@ -64,50 +64,41 @@
             <div class="container">
                 <div class="row">
                     <div class="col">
+                        <!-- Sección de productos disponibles -->
                         <h2 class="mt-4 mb-4"><i class="bi bi-bag"></i> Productos disponibles</h2>
                         <!-- Grid con bootstrap para mostrar varias tarjetas -->
                         <div class="row row-cols-1 row-cols-md-4 g-4">
                             <?php
-                            // Listamos los productos (Se renderizan ahora con HTML y Bootstrap)
+                            // Listamos los productos (se renderizan con HTML y Bootstrap)
                             $vc->listarProductos();
                             ?>
-
                         </div>
                         <hr>
                         <?php
-                        //voy a crear algunos socios 
-                        //Aplicando encadenamiento
+                        // Creamos algunos socios usando encadenamiento
                         $vc->incluirSocio("Amancio Ortega")->incluirSocio("Pablo Picasso", 2);
-                        //Aplicamos encadenamiento
+                        // Alquilamos productos a los socios
                         $vc->alquilaSocioProducto(1, 2)->alquilaSocioProducto(1, 3);
-                        //Despues de esta operacion no aplico mas encadenamiento por que hay observaciones...
-
-                        //alquilo otra vez el soporte 2 al socio 1. 
-                        // no debe dejarme porque ya lo tiene alquilado 
+                        // Intentos de alquiler que deben fallar (ya alquilado o cupo superado)
                         $vc->alquilaSocioProducto(1, 2);
-                        //alquilo el soporte 6 al socio 1. 
-                        //no se puede porque el socio 1 tiene 2 alquileres como máximo 
                         $vc->alquilaSocioProducto(1, 6);
                         ?>
+                        <!-- Sección de socios -->
                         <h2 class="mt-4 mb-4"><i class="bi bi-person-check"></i> Socios</h2>
                         <!-- Grid con bootstrap para mostrar varias tarjetas -->
                         <div class="row row-cols-1 row-cols-md-4 g-4">
                             <?php
-                            // Listamos los productos (Se renderizan ahora con HTML y Bootstrap)
+                            // Listamos los socios (se renderizan con HTML y Bootstrap)
                             $vc->listarSocios();
                             ?>
-
                         </div>
                     </div>
-
                 </div>
             </div>
-
-
         </div>
-
     </div>
 
+    <!-- Pie de página -->
     <footer class="bg-dark text-light text-center py-3 mt-auto">
         <div class="container">
             <p class="mb-0">

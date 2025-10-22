@@ -3,21 +3,15 @@ namespace Dwes\ProyectoVideoclub;
 require_once "Soporte.php";
 
 class CintaVideo extends Soporte implements Resumible {
-    /**
-     * Duración de la cinta en minutos
-     * @var int
-     */
-    private $duracion;
+    private $duracion; // Duración de la cinta en minutos
 
+    // Constructor: inicializa la cinta de vídeo
     public function __construct($titulo, $numero, $precio, $duracion) {
         parent::__construct($titulo, $numero, $precio);
         $this->duracion = $duracion;
     }
 
-    /**
-     * Muestra un resumen visual de la cinta de vídeo en formato tarjeta Bootstrap.
-     * Incluye título, número, precio, precio con IVA y duración.
-     */
+    // Muestra un resumen visual de la cinta de vídeo
     public function muestraResumen() {
         echo "<div class='col'>";
         echo "<div class='card border-success mb-3 mx-2' style='max-width: 20rem;'>";

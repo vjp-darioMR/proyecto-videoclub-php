@@ -13,6 +13,7 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100">
+    <!-- Barra de navegación principal -->
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#"><i class="bi bi-film"></i> Videoclub</a>
@@ -56,6 +57,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col">
+                        <!-- Muestra los identificadores de los clientes -->
                         <h2 class="mt-4 mb-4"><i class="bi bi-person"></i> Identificadores de clientes</h2>
                         <div class="alert alert-info">
                             <?php
@@ -64,6 +66,7 @@
                             ?>
                         </div>
                         <hr>
+                        <!-- Sección de soportes y operaciones de alquiler/devolución -->
                         <h2 class="mt-4 mb-4"><i class="bi bi-bag"></i> Soportes y operaciones</h2>
                         <?php
                         // Instancio algunos soportes
@@ -72,7 +75,7 @@
                         $soporte3 = new Dvd("Origen", 24, 15, "es,en,fr", "16:9");
                         $soporte4 = new Dvd("El Imperio Contraataca", 4, 3, "es,en", "16:9");
 
-                        // Alquilo algunos soportes
+                        // Alquilo algunos soportes para el cliente 1
                         echo '<div class="alert alert-success mt-2">Alquilando soportes para Bruce Wayne...</div>';
                         try {
                             $cliente1->alquilar($soporte1);
@@ -129,7 +132,6 @@
                         // Listo los elementos alquilados
                         echo '<div class="alert alert-info mt-2">Alquileres actuales de Bruce Wayne:</div>';
                         try {
-                            
                             $cliente1->listarAlquileres();
                         } catch (Exception $e) {
                             echo '<div class="alert alert-danger mt-2">' . $e->getMessage() . '</div>';
@@ -147,6 +149,7 @@
             </div>
         </div>
     </div>
+    <!-- Pie de página -->
     <footer class="bg-dark text-light text-center py-3 mt-auto">
         <div class="container">
             <p class="mb-0">

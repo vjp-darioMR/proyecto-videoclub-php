@@ -7,22 +7,25 @@ use Dwes\ProyectoVideoclub\Util\SoporteYaAlquiladoException;
 use Dwes\ProyectoVideoclub\Util\CupoSuperadoException;
 use Dwes\ProyectoVideoclub\Util\VideoclubException;
 
+// Clase principal que gestiona el videoclub: productos y socios
 class Videoclub
 {
-    private $nombre;
-    private $productos = [];
-    private $numProductos = 0;
-    private $socios = [];
-    private $numSocios = 0;
+    private $nombre;                // Nombre del videoclub
+    private $productos = [];        // Array de productos (soportes)
+    private $numProductos = 0;      // Contador de productos
+    private $socios = [];           // Array de socios (clientes)
+    private $numSocios = 0;         // Contador de socios
 
     public $numProductosAlquilados = 0;
     public $numTotalAlquileres = 0;
 
+    // Constructor: inicializa el videoclub con un nombre
     public function __construct($nombre)
     {
         $this->nombre = $nombre;
     }
 
+    // Métodos para obtener estadísticas de alquileres
     public function getNumProductosAlquilados()
     {
         return $this->numProductosAlquilados;
@@ -33,6 +36,7 @@ class Videoclub
         return $this->numTotalAlquileres;
     }
 
+    // Métodos para incluir productos al videoclub
     public function incluirCintaVideo($titulo, $precio, $duracion)
     {
         $cinta = new CintaVideo($titulo, ++$this->numProductos, $precio, $duracion);
@@ -54,20 +58,23 @@ class Videoclub
         return $this;
     }
 
+    // Añade un producto al array de productos
     private function incluirProducto($producto)
     {
         $this->productos[] = $producto;
-        
+        // Mensaje visual de confirmación
         echo '<div class="alert alert-dismissible alert-success mt-3">
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             <strong><i class="bi bi-check2"></i> Producto incluido!</strong> El producto "' . $producto->getTitulo() . '" (Número: ' . $producto->getNumero() . ') ha sido incluido con éxito.
         </div>';
     }
 
+    // Añade un nuevo socio (cliente)
     public function incluirSocio($nombre, $maxAlquilerConcurrerte = 2)
     {
         $socio = new Cliente($nombre, ++$this->numSocios, $maxAlquilerConcurrerte);
         $this->socios[] = $socio;
+        // Mensaje visual de confirmación
         echo '<div class="alert alert-dismissible alert-warning mt-3">
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             <strong><i class="bi bi-person-check"></i> Socio incluido!</strong> El socio "' . $nombre . '" (Número: ' . $socio->getNumero() . ') ha sido incluido con éxito.
@@ -75,6 +82,7 @@ class Videoclub
         return $this;
     }
 
+    // Alquila un producto a un socio
     public function alquilaSocioProducto($numeroCliente, $numeroSoporte)
     {
         try {
@@ -114,35 +122,25 @@ class Videoclub
         }
     }
 
+    // Alquila varios productos a un socio
     public function alquilarSocioProductos($numSocio, $numerosProductos)
     {
-        // Try catch para manejar las excepciones que hemos creado
         try {
-            // Buscamos el socio por su número
             $socio = $this->buscarSocio($numSocio);
-            // Inicializamos los productos como un array vacío
             $productos = [];
-            // Verificamos la disponibilidad de cada producto
             foreach ($numerosProductos as $numProd) {
-                // Buscamos el producto por su número
                 $prod = $this->buscarProducto($numProd);
-                // Verificamos si el producto ya está alquilado
                 if ($prod->alquilado) {
-                    // Entonces lanzamos la excepción
                     throw new SoporteYaAlquiladoException("El soporte " . $prod->getTitulo() . " ya está alquilado.");
                 }
-                // Si está disponible, lo añadimos al array de productos a alquilar
                 $productos[] = $prod;
             }
-            // Verificar si el socio puede alquilar todos
             if ($socio->getNumSoportesAlquilados() + count($productos) > $socio->getMaxAlquilerConcurrerte()) {
                 throw new CupoSuperadoException("No se pueden alquilar todos los productos: se superaría el máximo de alquileres.");
             }
-            // Todos disponibles, proceder a alquilar
             foreach ($productos as $prod) {
                 $socio->alquilar($prod);
             }
-            // Después del echo, devuelve this para permitir encadenar llamadas
             echo '<div class="alert alert-dismissible alert-info mt-3">
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 <strong><i class="bi bi-bag-check"></i> Alquileres realizados!</strong> Socio <span class="badge bg-info text-dark">' . $socio->getNumero() . '</span> ha alquilado <span class="badge bg-secondary">' . count($productos) . ' productos</span> con éxito.
@@ -176,6 +174,7 @@ class Videoclub
         }
     }
 
+    // Devuelve un producto alquilado por un socio
     public function devolverSocioProducto($numSocio, $numeroProducto)
     {
         try {
@@ -205,6 +204,7 @@ class Videoclub
         }
     }
 
+    // Devuelve varios productos alquilados por un socio
     public function devolverSocioProductos($numSocio, $numerosProductos)
     {
         try {
@@ -243,7 +243,7 @@ class Videoclub
         }
     }
 
-
+    // Lista todos los productos del videoclub
     public function listarProductos()
     {
         if (count($this->productos) > 0) {
@@ -263,6 +263,7 @@ class Videoclub
         }
     }
 
+    // Lista todos los socios del videoclub
     public function listarSocios()
     {
         if (count($this->socios) > 0) {
@@ -282,6 +283,7 @@ class Videoclub
         }
     }
 
+    // Busca un socio por su número
     private function buscarSocio($numeroCliente)
     {
         foreach ($this->socios as $socio) {
@@ -292,6 +294,7 @@ class Videoclub
         throw new ClienteNoEncontradoException("Socio con número " . $numeroCliente . " no encontrado.");
     }
 
+    // Busca un producto por su número
     private function buscarProducto($numeroSoporte)
     {
         foreach ($this->productos as $producto) {

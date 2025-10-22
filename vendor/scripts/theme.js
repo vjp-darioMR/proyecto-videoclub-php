@@ -1,9 +1,11 @@
 /* globals bootstrap:false, Prism:false */
 
+// Script principal para la gestión de temas y utilidades visuales
+
 (function () {
     'use strict';
 
-    //  Helper functions
+    // Escapa caracteres especiales en HTML
     function escapeHtml(html) {
         return html.replace(/×/g, '&times;')
             .replace(/«/g, '&laquo;')
@@ -12,9 +14,8 @@
             .replace(/→/g, '&rarr;');
     }
 
+    // Limpia el código fuente HTML para mostrarlo bonito
     function cleanSource(html) {
-        // Escape HTML, split the lines to an Array, remove empty elements
-        // and finally remove the last element
         let lines = escapeHtml(html).split('\n').filter(Boolean).slice(0, -1);
         const indentSize = lines[0].length - lines[0].trim().length;
         const re = new RegExp(' {' + indentSize + '}');
@@ -26,7 +27,7 @@
         return lines.join('\n');
     }
 
-    // Add/remove `.navbar-transparent` on scroll; should probably be throttled later
+    // Añade o quita la clase .navbar-transparent al hacer scroll
     function addNavbarTransparentClass() {
         const navBarElement = document.querySelector('#home > .navbar');
 
@@ -45,7 +46,7 @@
         });
     }
 
-    // Add source modals
+    // Añade funcionalidad a los modales de código fuente
     function addSourceModals() {
         const sourceModalElement = document.getElementById('source-modal');
 
@@ -78,7 +79,7 @@
         }, false);
     }
 
-    // Toggle light and dark themes
+    // Permite cambiar entre temas claro/oscuro
     function toggleThemeMenu() {
         let themeMenu = document.querySelector('#theme-menu');
 
@@ -93,38 +94,32 @@
     }
 
     addNavbarTransparentClass();
-
     addSourceModals();
-
     toggleThemeMenu();
 
-    // Prevent empty `a` elements or `submit` buttons from navigating away
+    // Previene navegación en enlaces vacíos y botones submit
     const targets = document.querySelectorAll('[href="#"], [type="submit"]');
-
     for (const element of targets) {
         element.addEventListener('click', event => {
             event.preventDefault();
         });
     }
 
-    // Add the "View Source" buttons in each component
+    // Añade botón "View Source" en cada componente Bootstrap
     const bsComponents = document.querySelectorAll('.bs-component');
-
     for (const element of bsComponents) {
         const button = '<button class="source-button btn btn-primary btn-xs" type="button" tabindex="0"><i class="bi bi-code"></i></button>';
         element.insertAdjacentHTML('beforeend', button);
     }
 
-    // Initialize popovers
+    // Inicializa popovers de Bootstrap
     const popoverElements = document.querySelectorAll('[data-bs-toggle="popover"]');
-
     for (const popover of popoverElements) {
         new bootstrap.Popover(popover); // eslint-disable-line no-new
     }
 
-    // Initialize tooltips
+    // Inicializa tooltips de Bootstrap
     const tooltipElements = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-
     for (const tooltip of tooltipElements) {
         new bootstrap.Tooltip(tooltip); // eslint-disable-line no-new
     }
