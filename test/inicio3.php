@@ -24,7 +24,7 @@
             <div class="collapse navbar-collapse" id="navbarColor02">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="../index.php"><i class="bi bi-house"></i> Inicio
+                        <a class="nav-link" href="../index.html"><i class="bi bi-house"></i> Inicio
                         </a>
                     </li>
                     <li class="nav-item dropdown">

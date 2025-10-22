@@ -68,7 +68,7 @@ El objetivo principal de este proyecto es simular la gestión de un videoclub, p
     📁styles/
         bootstrap.min.css
         custom.css
-
+index.html
 README.md
 autoload.php
 ```
@@ -76,12 +76,13 @@ autoload.php
 - **app/Dwes/ProyectoVideoclub/**: Contiene la lógica principal y las clases del dominio.
 - **app/Dwes/ProyectoVideoclub/Util/**: Excepciones personalizadas.
 - **test/**: Pruebas y scripts de ejemplo.
-- **vendor/**: Dependencias externas (si las hubiera).
+- **vendor/**: Dependencias externas (Bootstrap y theming del frontend).
+- **index.html** Archivo índice (Landing) con créditos y accesos directos a las pruebas
 
 ## Estructura de Ramas y Tags
 
 - **Ramas principales**:
-	- `main`: Rama principal y estable.
+	- `main`: Rama principal y estable (Producción).
     - `develop`: Rama de desarrollo conjunta (Versión previa a producción)
 
 	- `B-Dario`: Rama de desarrollo para Darío, donde se han realizado la última parte (videoclub 2.0).
@@ -94,8 +95,8 @@ autoload.php
 
 1. Clona el repositorio en tu entorno local.
 2. Configura un servidor local (por ejemplo, XAMPP) y sitúa el proyecto en la carpeta `htdocs`.
-3. Accede a los archivos de inicio (`inicio.php`, `inicio2.php`, `inicio3.php`) para probar las funcionalidades.
-4. Asegúrate de tener configurado el autoloading para cargar las clases correctamente.
+3. Accede al archivo index.html (Por defecto ruta raíz "/" )
+4. Si no hay ningún problema, debería cargar el landing
 
 ## Créditos
 
