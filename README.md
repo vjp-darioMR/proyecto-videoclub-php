@@ -1,6 +1,9 @@
 # Proyecto Videoclub PHP
 > Referencia: [Proyecto Videoclub - Aitor Medrano](https://aitor-medrano.github.io/dwes2122/03phpoo.html#proyecto-videoclub)
 
+<img width="1920" height="1080" alt="proyecto_videoclub_php_banner" src="https://github.com/user-attachments/assets/c4e39a64-5d24-4e37-a5b2-7c61b7a12971" />
+
+> Imagen del proyecto en producción - página index.html
 ## Realizado por:
 ### Darío Muñoz Rodríguez (2 DAW)
 ### Yago García Alonso (2 DAW)
