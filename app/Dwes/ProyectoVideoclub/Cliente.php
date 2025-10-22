@@ -49,11 +49,17 @@ class Cliente
     {
         foreach ($this->soportesAlquilados as $alquilado) {
             if ($alquilado === $soporte) {
-                echo "El soporte " . $soporte->getTitulo() . " ya está alquilado.<br>";
+                echo '<div class="alert alert-dismissible alert-danger mt-3">'
+                    . '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>'
+                    . '<strong><i class="bi bi-exclamation-triangle"></i> Soporte ya alquilado!</strong> El soporte "' . $soporte->getTitulo() . '" ya está alquilado por este cliente.'
+                    . '</div>';
                 return true;
             }
         }
-        echo "El soporte " . $soporte->getTitulo() . " no está alquilado.<br>";
+        echo '<div class="alert alert-dismissible alert-info mt-3">'
+            . '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>'
+            . '<strong><i class="bi bi-info-circle"></i> Soporte no alquilado!</strong> El soporte "' . $soporte->getTitulo() . '" no está alquilado por este cliente.'
+            . '</div>';
         return false;
     }
 
