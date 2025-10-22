@@ -34,6 +34,15 @@ abstract class Soporte implements Resumible {
         return $this->precio * (1 + self::IVA / 100);
     }
 
-    abstract public function muestraResumen();
+    public function muestraResumen() {
+    echo "<div class='col'>";
+    echo "<div class='card border-success mb-3 mx-2' style='max-width: 20rem;'>";
+    echo "<div class='card-header'>" . $this->getTitulo() . " <span class='badge rounded-pill bg-success'>" . $this->getNumero() . "</span></div>";
+    echo "<div class='card-body'>";
+    echo "<h5 class='card-title'>Precio: " . $this->getPrecio() . " €</h5>";
+    echo "<p class='card-text'>Precio con IVA: " . number_format($this->getPrecioConIVA(), 2) . " €</p>";
+    // Los detalles extra se añaden en las clases hijas
+    echo "</div></div></div>";
+    }
 }
 ?>
