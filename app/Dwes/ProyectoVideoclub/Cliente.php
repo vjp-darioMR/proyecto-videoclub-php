@@ -124,13 +124,6 @@ class Cliente
         echo "Nombre: " . $this->nombre . "<br>";
         echo "Alquileres realizados: " . $this->numSoportesAlquilados . "<br>";
     }
-    public function incluirSocio($nombre, $maxAlquilerConcurrente = 3, $username = '', $password = '')
-    {
-        $numero = ++$this->numSocios;
-        $cliente = new Cliente($nombre, $numero, $maxAlquilerConcurrente, $username, $password);
-        $this->socios[] = $cliente;
-        return $this;
-    }
     public function getUsername()
     {
         return $this->username;
