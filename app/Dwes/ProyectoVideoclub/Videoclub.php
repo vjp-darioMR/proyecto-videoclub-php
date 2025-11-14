@@ -1,4 +1,5 @@
 <?php
+
 namespace Dwes\ProyectoVideoclub;
 
 use Dwes\ProyectoVideoclub\Util\ClienteNoEncontradoException;
@@ -10,11 +11,11 @@ use Dwes\ProyectoVideoclub\Util\VideoclubException;
 // Clase principal que gestiona el videoclub: productos y socios
 class Videoclub
 {
-    private $nombre;                // Nombre del videoclub
-    private $productos = [];        // Array de productos (soportes)
-    private $numProductos = 0;      // Contador de productos
-    private $socios = [];           // Array de socios (clientes)
-    private $numSocios = 0;         // Contador de socios
+    private $nombre;
+    private $productos = [];
+    private $numProductos = 0;
+    private $socios = [];
+    private $numSocios = 0;
 
     public $numProductosAlquilados = 0;
     public $numTotalAlquileres = 0;
@@ -70,15 +71,18 @@ class Videoclub
     }
 
     // Añade un nuevo socio (cliente)
-    public function incluirSocio($nombre, $maxAlquilerConcurrerte = 2)
+    public function incluirSocio($nombre, $maxAlquilerConcurrente = 3, $username = '', $password = '')
     {
-        $socio = new Cliente($nombre, ++$this->numSocios, $maxAlquilerConcurrerte);
-        $this->socios[] = $socio;
-        // Mensaje visual de confirmación
+        $numero = ++$this->numSocios;
+        $cliente = new Cliente($nombre, $numero, $maxAlquilerConcurrente, $username, $password);
+
+        $this->socios[] = $cliente;
+
         echo '<div class="alert alert-dismissible alert-warning mt-3">
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            <strong><i class="bi bi-person-check"></i> Socio incluido!</strong> El socio "' . $nombre . '" (Número: ' . $socio->getNumero() . ') ha sido incluido con éxito.
-        </div>';
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong><i class="bi bi-person-check"></i> Socio incluido!</strong> El socio "' . $nombre . '" (Número: ' . $numero . ') ha sido incluido con éxito.
+    </div>';
+
         return $this;
     }
 
@@ -303,5 +307,13 @@ class Videoclub
             }
         }
         throw new SoporteNoEncontradoException("Producto con número " . $numeroSoporte . " no encontrado.");
+    }
+    public function getSocios()
+    {
+        return $this->socios;
+    }
+    public function getProductos()
+    {
+        return $this->productos;
     }
 }

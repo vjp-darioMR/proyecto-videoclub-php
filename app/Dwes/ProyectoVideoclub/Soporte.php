@@ -1,6 +1,6 @@
 <?php
 namespace Dwes\ProyectoVideoclub;
-require_once "Resumible.php";
+// require_once "Resumible.php"; <-- ha sido eliminado
 
 // Clase abstracta base para todos los soportes del videoclub
 abstract class Soporte implements Resumible {

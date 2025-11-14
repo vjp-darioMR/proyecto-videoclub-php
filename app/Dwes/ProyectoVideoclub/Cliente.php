@@ -1,6 +1,6 @@
 <?php
+
 namespace Dwes\ProyectoVideoclub;
-require_once "Soporte.php";
 
 use Dwes\ProyectoVideoclub\Util\SoporteYaAlquiladoException;
 use Dwes\ProyectoVideoclub\Util\CupoSuperadoException;
@@ -13,15 +13,19 @@ class Cliente
     private $numero;
     private $maxAlquilerConcurrente;
     private $numSoportesAlquilados = 0;
+    private $username;
+    private $password;
     private $soportesAlquilados = [];
 
     // Constructor: inicializa el cliente
-    public function __construct($nombre, $numero, $maxAlquilerConcurrente = 3)
-    {
-        $this->nombre = $nombre;
-        $this->numero = $numero;
-        $this->maxAlquilerConcurrente = $maxAlquilerConcurrente;
-    }
+   public function __construct($nombre, $numero, $maxAlquilerConcurrente = 3, $username = '', $password = '')
+{
+    $this->nombre = $nombre;
+    $this->numero = $numero;
+    $this->maxAlquilerConcurrente = $maxAlquilerConcurrente;
+    $this->username = $username;
+    $this->password = $password;
+}
 
     // Métodos para obtener información básica del cliente
     public function getNumero()
@@ -42,6 +46,10 @@ class Cliente
     public function getMaxAlquilerConcurrente()
     {
         return $this->maxAlquilerConcurrente;
+    }
+    public function getAlquileres(): array
+    {
+        return $this->soportesAlquilados;
     }
 
     // Comprueba si el cliente ya tiene alquilado un soporte
@@ -115,5 +123,20 @@ class Cliente
     {
         echo "Nombre: " . $this->nombre . "<br>";
         echo "Alquileres realizados: " . $this->numSoportesAlquilados . "<br>";
+    }
+    public function incluirSocio($nombre, $maxAlquilerConcurrente = 3, $username = '', $password = '')
+    {
+        $numero = ++$this->numSocios;
+        $cliente = new Cliente($nombre, $numero, $maxAlquilerConcurrente, $username, $password);
+        $this->socios[] = $cliente;
+        return $this;
+    }
+    public function getUsername()
+    {
+        return $this->username;
+    }
+    public function getPassword()
+    {
+        return $this->password;
     }
 }
