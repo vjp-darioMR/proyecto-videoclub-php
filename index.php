@@ -1,6 +1,7 @@
 <?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,10 +10,18 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="vendor/styles/custom.css">
     <style>
-        .login-card { max-width: 400px; margin: 3rem auto; }
-        .error-alert { max-width: 400px; margin: 1rem auto; }
+        .login-card {
+            max-width: 400px;
+            margin: 3rem auto;
+        }
+
+        .error-alert {
+            max-width: 400px;
+            margin: 1rem auto;
+        }
     </style>
 </head>
+
 <body class="bg-light d-flex align-items-center min-vh-100">
 
     <div class="container">
@@ -28,6 +37,7 @@
                 <?php endif; ?>
 
                 <!-- Formulario de login -->
+                <!-- POST a login.php -->
                 <form action="login.php" method="post">
                     <div class="mb-3">
                         <input type="text" name="usuario" class="form-control" placeholder="Usuario" required>
@@ -42,7 +52,14 @@
 
                 <hr>
                 <small class="text-muted">
-                    Usa: <code>admin/admin</code> o <code>usuario/usuario</code>
+                    Usuarios disponibles:
+                    <ul class="list-unstyled mb-0">
+                        <li><strong><code>admin / admin</code></strong> (Administrador)</li>
+                        <li><strong>bruce / gotham</strong> (Bruce Wayne)</li>
+                        <li><strong>clark / dailyplanet</strong> (Clark Kent)</li>
+                        <li><strong>diana / amazon</strong> (Diana Prince)</li>
+                        <li><strong>usuario / usuario</strong> (Usuario de prueba)</li>
+                    </ul>
                 </small>
             </div>
         </div>
@@ -50,4 +67,5 @@
 
     <script src="vendor/scripts/bootstrap.min.js"></script>
 </body>
+
 </html>

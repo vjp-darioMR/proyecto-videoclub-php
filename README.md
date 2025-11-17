@@ -1,5 +1,5 @@
-# Proyecto Videoclub PHP
-> Referencia: [Proyecto Videoclub - Aitor Medrano](https://aitor-medrano.github.io/dwes2122/03phpoo.html#proyecto-videoclub)
+# Proyecto Videoclub PHP 3.0
+> Referencia: [Proyecto Videoclub 3.0 - Aitor Medrano](https://aitor-medrano.github.io/dwes2122/04web.html#proyecto-videoclub-30)
 
 ## Realizado por:
 ### Darío Muñoz Rodríguez (2 DAW)
@@ -7,7 +7,7 @@
 ---
 ## Idea del Proyecto
 
-El objetivo principal de este proyecto es simular la gestión de un videoclub, permitiendo administrar socios y soportes (cintas de vídeo, DVDs y juegos), así como el alquiler y devolución de estos productos. El sistema está desarrollado en PHP orientado a objetos, siguiendo buenas prácticas de diseño y estructura modular.
+La nueva versión del proyecto videoclub incluye un uso más avanzado de la clase Videoclub, agregando gestión de usuarios con un inicio de sesión propio y panel de administración con una vista general del Videoclub.
 
 ## Desarrollo
 ### Stack Tecnológico
@@ -30,15 +30,20 @@ El objetivo principal de este proyecto es simular la gestión de un videoclub, p
 
 ### Funcionalidades Implementadas
 
-- **Gestión de socios**: Alta, baja y listado de clientes.
-- **Gestión de soportes**: Alta y listado de productos (CintaVideo, Dvd, Juego).
+- **Autenticación y Control de Acceso**: Sistema de login con validación de credenciales y sesiones PHP. Diferenciación de permisos entre administrador y clientes normales.
+- **Gestión de socios**: Alta, baja, edición y listado de clientes. Solo administrador puede crear/eliminar, cualquier usuario puede editar su perfil.
+- **Gestión de soportes**: Listado de productos (CintaVideo, Dvd, Juego) con indicador visual de disponibilidad/alquiler.
+- **Panel de Administrador**: Vista general con tarjetas de clientes y productos. Opciones para editar y eliminar clientes.
+- **Panel de Cliente**: Visualización personal de alquileres actuales. Acceso a edición de perfil.
 - **Alquiler y devolución**: Permite alquilar y devolver productos, controlando el cupo máximo y el estado de los soportes.
-- **Frontend**: Interfaz con Bootstrap 5, alertas para operaciones y errores, y visualización de productos y alquileres en tarjetas.
+- **Validación de formularios**: Validaciones en servidor con mensajes de error detallados y rellenado automático de formularios.
+- **Sincronización de datos**: Mantiene consistencia entre objetos Videoclub y arrays asociativos para flexibilidad.
+- **Frontend responsivo**: Interfaz con Bootstrap 5, alertas flash para operaciones, tarjetas (cards) para presentación de datos, iconos Bootstrap.
 - **Excepciones personalizadas**: Manejo de errores de negocio con clases específicas.
-- **Documentación y comentarios**: El código está comentado para facilitar su comprensión y mantenimiento.
+- **Documentación exhaustiva**: El código está comentado en profundidad para facilitar su comprensión y mantenimiento.
 
 ## Estructura del Proyecto
-### Jerarquía app - vendor - test
+### Jerarquía de Archivos y Carpetas
 
 ```
 📂 app/
@@ -69,14 +74,62 @@ El objetivo principal de este proyecto es simular la gestión de un videoclub, p
         bootstrap.min.css
         custom.css
 
-README.md
 autoload.php
+createCliente.php
+formCreateCliente.php
+formUpdateCliente.php
+home.php
+index.php
+login.php
+logout.php
+main.php
+mainAdmin.php
+mainCliente.php
+removeCliente.php
+updateCliente.php
+README.md
+TODO.md
 ```
 
-- **app/Dwes/ProyectoVideoclub/**: Contiene la lógica principal y las clases del dominio.
-- **app/Dwes/ProyectoVideoclub/Util/**: Excepciones personalizadas.
-- **test/**: Pruebas y scripts de ejemplo.
-- **vendor/**: Dependencias externas (si las hubiera).
+### Descripción de Componentes
+
+**Estructura del Dominio (app/Dwes/ProyectoVideoclub/):**
+- **app/Dwes/ProyectoVideoclub/**: Contiene la lógica principal y las clases del dominio de negocio.
+  - `Videoclub.php`: Clase principal que gestiona socios, productos y alquileres.
+  - `Cliente.php`: Representa un cliente/socio del videoclub con sus datos personales y alquileres.
+  - `Soporte.php`: Clase base abstracta para productos alquilables.
+  - `CintaVideo.php`, `Dvd.php`, `Juego.php`: Tipos específicos de soportes/productos.
+  - `Resumible.php`: Interfaz para productos que pueden ser alquilados y devueltos.
+- **app/Dwes/ProyectoVideoclub/Util/**: Excepciones personalizadas para manejo de errores de negocio.
+
+**Archivos de Prueba:**
+- **test/**: Pruebas y scripts de ejemplo para verificar la lógica del dominio.
+
+**Recursos Frontend:**
+- **vendor/**: Dependencias externas (Bootstrap, scripts personalizados, estilos).
+
+**Archivos de Autenticación:**
+- `index.php`: Punto de entrada. Muestra el formulario de login.
+- `login.php`: Procesa credenciales, valida usuario y establece la sesión.
+- `logout.php`: Destruye la sesión y redirige al login.
+
+**Archivos de Gestión de Panel:**
+- `home.php`: Página de bienvenida post-login (redirige al panel correspondiente).
+- `main.php`: Página principal para distribución de contenido según permisos.
+- `mainAdmin.php`: Panel de administrador. Muestra listado de clientes y productos con opciones de edición/eliminación.
+- `mainCliente.php`: Panel de cliente. Muestra sus alquileres actuales y opción para editar perfil.
+
+**Archivos de Gestión de Clientes:**
+- `formCreateCliente.php`: Formulario para crear nuevo cliente (solo admin).
+- `createCliente.php`: Procesa la creación de nuevo cliente. Valida datos y actualiza sesión.
+- `formUpdateCliente.php`: Formulario para editar datos de cliente (admin puede editar cualquier cliente, clientes solo editan su perfil).
+- `updateCliente.php`: Procesa la actualización de datos del cliente. Sincroniza cambios en objeto Videoclub y arrays.
+- `removeCliente.php`: Procesa la eliminación de cliente. Solo admin. Valida que no sea el administrador (socio 1).
+
+**Archivos de Configuración:**
+- `autoload.php`: Carga automática de clases usando PSR-4 namespace.
+- `README.md`: Documentación del proyecto.
+- `TODO.md`: Lista de tareas y mejoras pendientes.
 
 ## Estructura de Ramas y Tags
 
@@ -94,7 +147,7 @@ autoload.php
 
 1. Clona el repositorio en tu entorno local.
 2. Configura un servidor local (por ejemplo, XAMPP) y sitúa el proyecto en la carpeta `htdocs`.
-3. Accede a los archivos de inicio (`inicio.php`, `inicio2.php`, `inicio3.php`) para probar las funcionalidades.
+3. Accede al archivo index.php para probar la gestión de usuarios / o home.php para probar los tests de uso
 4. Asegúrate de tener configurado el autoloading para cargar las clases correctamente.
 
 ## Créditos
