@@ -18,14 +18,14 @@ class Cliente
     private $soportesAlquilados = [];
 
     // Constructor: inicializa el cliente
-   public function __construct($nombre, $numero, $maxAlquilerConcurrente = 3, $username = '', $password = '')
-{
-    $this->nombre = $nombre;
-    $this->numero = $numero;
-    $this->maxAlquilerConcurrente = $maxAlquilerConcurrente;
-    $this->username = $username;
-    $this->password = $password;
-}
+    public function __construct($nombre, $numero, $maxAlquilerConcurrente = 3, $username = '', $password = '')
+    {
+        $this->nombre = $nombre;
+        $this->numero = $numero;
+        $this->maxAlquilerConcurrente = $maxAlquilerConcurrente;
+        $this->username = $username;
+        $this->password = $password;
+    }
 
     // Métodos para obtener información básica del cliente
     public function getNumero()
