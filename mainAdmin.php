@@ -53,7 +53,7 @@ if (
             <div class="col-md-6">
                 <div class="d-flex align-items-center justify-content-between">
                     <h3 class="mb-3">Clientes</h3>
-                    <a href="formCreateCliente.php" class="btn btn-sm btn-success">Nuevo cliente</a>
+                    <a href="formCreateCliente.php" class="btn btn-sm btn-success"> <i class="bi bi-person"> </i>Nuevo cliente</a>
                 </div>
                 <div class="row row-cols-1 row-cols-md-2 g-3">
                     <?php
