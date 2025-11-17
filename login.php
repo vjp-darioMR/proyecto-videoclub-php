@@ -2,7 +2,7 @@
 session_start();
 require_once "autoload.php";
 
-use Dwes\ProyectoVideoclub\{Videoclub, Cliente, CintaVideo, Dvd, Juego};
+use Dwes\ProyectoVideoclub\{Cliente, Videoclub};
 
 $username = $_POST['usuario'] ?? '';
 $password = $_POST['password'] ?? '';
@@ -18,7 +18,13 @@ if (!isset($validUsers[$username]) || $validUsers[$username] !== $password) {
     exit;
 }
 
+//La variable de videoclub empieza nula
 $vc = null;
+// crear cliente
+$cliente = new Cliente($username, 1, 3, $username, $password);
+// guardar en sesión
+$_SESSION['user'] = $cliente;
+$_SESSION['videoclub'] = $vc;
 if ($username === 'admin') {
     $vc = new Videoclub("Videoclub Premium");
 
@@ -38,30 +44,19 @@ if ($username === 'admin') {
     $vc->alquilaSocioProducto(1, 1);
     $vc->alquilaSocioProducto(1, 2);
     $vc->alquilaSocioProducto(2, 3);
-}
 
-// guardar en sesión
-$_SESSION['user'] = $username;
-$_SESSION['videoclub'] = $vc;
-
-// redereccion
-if ($username === 'admin') {
     header('Location: mainAdmin.php');
-} else {
-    $cliente = null;
-    if ($vc) {
-        foreach ($vc->getSocios() as $c) {
-            if ($c->getUsername() === $username && $c->getPassword() === $password) {
-                $cliente = $c;
-                break;
-            }
-        }
-    }
-    if ($cliente) {
-        $_SESSION['cliente'] = $cliente;
-        header('Location: mainCliente.php');
-    } else {
-        header('Location: main.php');
-    }
+} else if ($username === 'usuario') {
+    $vc = new Videoclub("Videoclub Premium");
+
+    // soportes
+    $vc->incluirCintaVideo("Los cazafantasmas", 3.5, 107);
+    $vc->incluirDvd("Origen", 15, "es,en,fr", "16:9");
+    $vc->incluirJuego("The Last of Us Part II", 49.99, "PS4", 1, 1);
+    $vc->incluirJuego("FIFA 23", 59.99, "PS5", 1, 4);
+    $vc->incluirDvd("El Imperio Contraataca", 12, "es,en", "4:3");
+
+    header('Location: mainCliente.php');
 }
+
 exit;

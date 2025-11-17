@@ -1,10 +1,15 @@
 <?php
+//Usamos autoload para cargar las clases
+
+require_once __DIR__ . '/autoload.php';
+
 session_start();
-if (!isset($_SESSION['cliente'])) {
+if (!isset($_SESSION['user'])) {
     header('Location: index.php');
     exit;
 }
-$cliente = $_SESSION['cliente'];
+//Le damos el cliente de la sesión
+$cliente = $_SESSION['user'];
 ?>
 <!DOCTYPE html>
 <html lang="es">

@@ -1,33 +1,12 @@
-# proyecto-videoclub-php
+# proyecto-videoclub-php 3.0
 
 ## Branch DarioMR
 
 ### Referencias:
-https://aitor-medrano.github.io/dwes2122/03phpoo.html#proyecto-videoclub-20
+https://aitor-medrano.github.io/dwes2122/04web.html#proyecto-videoclub-30
 
 ---
 ## ( ! ) Mejoras
-- [-] Agregar una documentación robusta y entera
-- [] Comentar de manera técnica y detallada el proyecto (rama develop btw)
-- [x] Reparar inicio .php, el 1 y 2 daban error
-    - [x] Reparar inicio2.php
-    - [x] Reparar inicio.php
-
-- [x] Aplicar estilos en inicio3.php
-- [-] Aplicar estilos en inicio2.php (Falta detallar)
-- [x] Aplicar estilos en inicio.php
-Ya que en la rúbrica pone que aplicar Diseño y experiencia de usuario es nota; Vamos a hacerlo bien....
-
-"Considera la calidad visual y la facilidad de uso de la aplicación web. - Interfaz coherente y funcional. - Navegación clara e intuitiva. - Uso adecuado de HTML, CSS y/o frameworks. - Diseño adaptado al propósito de la aplicación."
-
-Por tanto:
-
-## Librerías a aplicar: HTML, CSS, JS + Bootstrap (Con tema de bootswatch) + PHP
-
-### Frontend:
-> Usaré HTML CSS y JS con [Bootstrap](https://getbootstrap.com/), y el tema [Brite](https://bootswatch.com/brite/) y los iconos de [Bootstrap Icons](https://icons.getbootstrap.com/)
-
-He elegido este stack frontend por la versatilidad, me dará responsive, estilos básicos, y lo justo para un proyecto como este.
-
-### PHP:
-Voy a tener que reestructurar la clase Videoclub ya que renderiza con echo... y lo óptimo es que lo haga con HTML 
+[ - ] Revisar el código entregado por mi compañero
+[] Optimizar en caso de que se necesite
+[] Empezar con mi parte
