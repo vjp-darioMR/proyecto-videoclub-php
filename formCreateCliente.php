@@ -9,7 +9,7 @@ unset($_SESSION['form_errors'], $_SESSION['form_data']);
 
 // Control de acceso: requiere usuario admin
 $usuario = $_SESSION['user'] ?? null;
-if (!isset($usuario) || $usuario->getNombre() !== 'admin') {
+if (!isset($usuario) || $usuario->getUsername() !== 'admin') {
     header('Location: index.php');
     exit;
 }
