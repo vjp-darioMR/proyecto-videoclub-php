@@ -18,7 +18,13 @@ if (!isset($_SESSION['user']) || $usuario->getNombre() !== 'admin' || (is_null($
     header('Location: index.php');
     exit;
 }
-
+// Obtener clientes desde Videoclub o array de prueba
+$clientes = [];
+if ($vc && method_exists($vc, 'getSocios')) {
+    $clientes = $vc->getSocios();
+} elseif (is_array($clientesArr)) {
+    $clientes = $clientesArr;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
