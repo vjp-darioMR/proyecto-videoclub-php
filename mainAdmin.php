@@ -14,7 +14,10 @@ $soportesArr = $_SESSION['soportes'] ?? null; // array asociativo de soportes (p
 
 // Control de acceso: requiere usuario logueado que sea 'admin' y, al
 // menos, disponer del objeto Videoclub o de los arrays de prueba.
-if (!isset($_SESSION['user']) || $usuario->getNombre() !== 'admin' || (is_null($vc) && (is_null($clientesArr) || is_null($soportesArr)))) {
+if (
+    !isset($_SESSION['user']) || 
+    $usuario->getUsername() !== 'admin'
+    || (is_null($vc) && (is_null($clientesArr) || is_null($soportesArr)))) {
     header('Location: index.php');
     exit;
 }
@@ -82,7 +85,7 @@ if (!isset($_SESSION['user']) || $usuario->getNombre() !== 'admin' || (is_null($
                                     </div>
                                 </div>
                             </div>
-                        <?php endforeach;
+                    <?php endforeach;
                     endif;
                     ?>
                 </div>
@@ -126,7 +129,7 @@ if (!isset($_SESSION['user']) || $usuario->getNombre() !== 'admin' || (is_null($
                                     </div>
                                 </div>
                             </div>
-                        <?php endforeach;
+                    <?php endforeach;
                     endif;
                     ?>
                 </div>
