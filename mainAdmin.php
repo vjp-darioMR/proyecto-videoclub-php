@@ -1,13 +1,19 @@
 <?php
+require_once __DIR__ . '/autoload.php';
+
+
 session_start();
-if (!isset($_SESSION['user']) || $_SESSION['user'] !== 'admin' || !isset($_SESSION['videoclub'])) {
+$usuario = $_SESSION['user'];
+$vc = $_SESSION['videoclub'];
+if (!isset($_SESSION['user']) || $usuario->getNombre() !== 'admin' || !isset($_SESSION['videoclub'])) {
     header('Location: index.php');
     exit;
 }
-$vc = $_SESSION['videoclub'];
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,11 +22,12 @@ $vc = $_SESSION['videoclub'];
     <link rel="stylesheet" href="vendor/styles/custom.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
+
 <body class="bg-light d-flex flex-column min-vh-100">
 
     <div class="container mt-5">
         <h1>Panel de Administrador</h1>
-        <p class="lead">Bienvenido, <strong>admin</strong>.</p>
+        <p class="lead">Bienvenido, <strong><?= htmlspecialchars($usuario->getUsername()) ?></strong>.</p>
 
         <div class="row">
             <div class="col-md-6">
@@ -44,7 +51,7 @@ $vc = $_SESSION['videoclub'];
 
             <div class="col-md-6">
                 <h3>Soportes</h3>
-                <div class="row row-cols-1 row-cols-md-2 g-3">
+                <div class="row row-cols-1 row-cols-md-2 g-3 mb-3">
                     <?php foreach ($vc->getProductos() as $soporte): ?>
                         <div class="col">
                             <div class="card h-100 <?= $soporte->alquilado ? 'border-danger' : 'border-success' ?>">
@@ -68,4 +75,5 @@ $vc = $_SESSION['videoclub'];
 
     <script src="vendor/scripts/bootstrap.min.js"></script>
 </body>
+
 </html>

@@ -19,14 +19,14 @@ if (!isset($validUsers[$username]) || $validUsers[$username] !== $password) {
 }
 
 //La variable de videoclub empieza nula
-$vc = null;
+$vc = new Videoclub("Videoclub");
 // crear cliente
 $cliente = new Cliente($username, 1, 3, $username, $password);
 // guardar en sesión
 $_SESSION['user'] = $cliente;
-$_SESSION['videoclub'] = $vc;
+
 if ($username === 'admin') {
-    $vc = new Videoclub("Videoclub Premium");
+    $vc = new Videoclub("Videoclub");
 
     // soportes
     $vc->incluirCintaVideo("Los cazafantasmas", 3.5, 107);
@@ -35,7 +35,7 @@ if ($username === 'admin') {
     $vc->incluirJuego("FIFA 23", 59.99, "PS5", 1, 4);
     $vc->incluirDvd("El Imperio Contraataca", 12, "es,en", "4:3");
 
-    // clientes con usser/pass
+    // clientes con user/pass
     $vc->incluirSocio("Bruce Wayne", 3, "bruce", "gotham");
     $vc->incluirSocio("Clark Kent", 3, "clark", "dailyplanet");
     $vc->incluirSocio("Diana Prince", 3, "diana", "amazon");
@@ -45,9 +45,10 @@ if ($username === 'admin') {
     $vc->alquilaSocioProducto(1, 2);
     $vc->alquilaSocioProducto(2, 3);
 
+    $_SESSION['videoclub'] = $vc;
     header('Location: mainAdmin.php');
 } else if ($username === 'usuario') {
-    $vc = new Videoclub("Videoclub Premium");
+    $vc = new Videoclub("Videoclub");
 
     // soportes
     $vc->incluirCintaVideo("Los cazafantasmas", 3.5, 107);
@@ -56,6 +57,7 @@ if ($username === 'admin') {
     $vc->incluirJuego("FIFA 23", 59.99, "PS5", 1, 4);
     $vc->incluirDvd("El Imperio Contraataca", 12, "es,en", "4:3");
 
+    $_SESSION['videoclub'] = $vc;
     header('Location: mainCliente.php');
 }
 
