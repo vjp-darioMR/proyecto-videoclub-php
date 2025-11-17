@@ -1,6 +1,6 @@
 <?php
+
 namespace Dwes\ProyectoVideoclub;
-require_once "Soporte.php";
 
 use Dwes\ProyectoVideoclub\Util\SoporteYaAlquiladoException;
 use Dwes\ProyectoVideoclub\Util\CupoSuperadoException;
@@ -13,14 +13,18 @@ class Cliente
     private $numero;
     private $maxAlquilerConcurrente;
     private $numSoportesAlquilados = 0;
+    private $username;
+    private $password;
     private $soportesAlquilados = [];
 
     // Constructor: inicializa el cliente
-    public function __construct($nombre, $numero, $maxAlquilerConcurrente = 3)
+    public function __construct($nombre, $numero, $maxAlquilerConcurrente = 3, $username = '', $password = '')
     {
         $this->nombre = $nombre;
         $this->numero = $numero;
         $this->maxAlquilerConcurrente = $maxAlquilerConcurrente;
+        $this->username = $username;
+        $this->password = $password;
     }
 
     // Métodos para obtener información básica del cliente
@@ -42,6 +46,10 @@ class Cliente
     public function getMaxAlquilerConcurrente()
     {
         return $this->maxAlquilerConcurrente;
+    }
+    public function getAlquileres(): array
+    {
+        return $this->soportesAlquilados;
     }
 
     // Comprueba si el cliente ya tiene alquilado un soporte
@@ -121,5 +129,38 @@ class Cliente
     {
         echo "Nombre: " . $this->nombre . "<br>";
         echo "Alquileres realizados: " . $this->numSoportesAlquilados . "<br>";
+    }
+    public function getUsername()
+    {
+        return $this->username;
+    }
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    // Setters para edición de datos
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+        return $this;
+    }
+
+    public function setUsername($username)
+    {
+        $this->username = $username;
+        return $this;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = $password;
+        return $this;
+    }
+
+    public function setMaxAlquilerConcurrente($maxAlquiler)
+    {
+        $this->maxAlquilerConcurrente = $maxAlquiler;
+        return $this;
     }
 }
