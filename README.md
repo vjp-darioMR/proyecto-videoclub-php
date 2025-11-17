@@ -2,9 +2,11 @@
 > Referencia: [Proyecto Videoclub 3.0 - Aitor Medrano](https://aitor-medrano.github.io/dwes2122/04web.html#proyecto-videoclub-30)
 
 <img width="1920" height="1080" alt="banner_videoclub_3" src="https://github.com/user-attachments/assets/fc94d798-a6b3-4387-a041-300fbd08237f" />
+
 > Imagen del proyecto 3.0 en producción - páginas index.php (izquierda) y panel de admin (derecha)
-> 
+
 <img width="1920" height="1080" alt="proyecto_videoclub_php_banner" src="https://github.com/user-attachments/assets/c4e39a64-5d24-4e37-a5b2-7c61b7a12971" />
+
 > Imagen del proyecto 2.0 (página index.html)
 
 ## Realizado por:
