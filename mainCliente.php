@@ -27,14 +27,14 @@ $cliente = $_SESSION['user'];
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
                 <h1>Mis Alquileres</h1>
-                <p class="lead mb-0">Hola, <strong><?= htmlspecialchars($cliente->getNombre()) ?></strong>.</p>
+                <p class="lead mb-0">Hola, <strong><?= htmlspecialchars($cliente->getNombre())." (".$cliente->getNumero().")" ?></strong>.</p>
             </div>
             <a href="formUpdateCliente.php?numero=<?= $cliente->getNumero() ?>&origen=mainCliente" class="btn btn-warning">
                 <i class="bi bi-pencil"></i> Editar perfil
             </a>
         </div>
 
-        <h3>Alquileres Actuales (<?= $cliente->getNumSoportesAlquilados() ?>)</h3>
+        <h3>Alquileres Actuales (<?= $cliente->getNumSoportesAlquilados()."/".$cliente->getMaxAlquilerConcurrente() ?>)</h3>
 
         <?php if ($cliente->getNumSoportesAlquilados() > 0): ?>
             <div class="row row-cols-1 row-cols-md-3 g-3">
