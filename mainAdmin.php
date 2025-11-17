@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/autoload.php';
 
-
 // Iniciamos sesión y recuperamos los datos que podrían haber sido
 // guardados durante el login. Soportes y clientes se guardan como
 // arrays asociativos para las páginas de administración en esta fase
@@ -21,7 +20,13 @@ if (
     header('Location: index.php');
     exit;
 }
-
+// Obtener clientes desde Videoclub o array de prueba
+$clientes = [];
+if ($vc && method_exists($vc, 'getSocios')) {
+    $clientes = $vc->getSocios();
+} elseif (is_array($clientesArr)) {
+    $clientes = $clientesArr;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -41,6 +46,7 @@ if (
         <h1>Panel de Administrador</h1>
         <p class="lead">Bienvenido, <strong><?= htmlspecialchars($usuario->getUsername()) ?></strong>.</p>
 
+        <!-- Mensaje flash de éxito tras borrar un cliente -->
         <?php if (!empty($_SESSION['flash_success'])): ?>
             <div class="alert alert-success alert-dismissible">
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -57,7 +63,7 @@ if (
                 </div>
                 <div class="row row-cols-1 row-cols-md-2 g-3">
                     <?php
-                    // Preferir el objeto Videoclub para listar socios; si no existe, usar el array de sesión
+                    // Listado de clientes con botón eliminar y confirmación JS
                     if (!is_null($vc)):
                         foreach ($vc->getSocios() as $cliente): ?>
                             <div class="col">
@@ -68,6 +74,13 @@ if (
                                             <strong>Usuario:</strong> <?= htmlspecialchars($cliente->getUsername()) ?><br>
                                             <strong>Alquileres:</strong> <?= $cliente->getNumSoportesAlquilados() ?>
                                         </p>
+                                        <!-- Formulario para eliminar cliente con confirmación JS -->
+                                        <form method="post" action="removeCliente.php" class="d-inline" onsubmit="return confirmarBorrado('<?= htmlspecialchars($cliente->getNombre()) ?>');">
+                                            <input type="hidden" name="numero" value="<?= $cliente->getNumero() ?>">
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="bi bi-trash"></i> Eliminar
+                                            </button>
+                                        </form>
                                     </div>
                                     <div class="card-footer bg-transparent">
                                         <a href="formUpdateCliente.php?numero=<?= $cliente->getNumero() ?>&origen=mainAdmin" class="btn btn-sm btn-warning">
@@ -87,6 +100,13 @@ if (
                                             <strong>Usuario:</strong> <?= htmlspecialchars($cliente['username']) ?><br>
                                             <strong>Alquileres:</strong> <?= count($cliente['alquileres']) ?>
                                         </p>
+                                        <!-- Formulario para eliminar cliente con confirmación JS -->
+                                        <form method="post" action="removeCliente.php" class="d-inline" onsubmit="return confirmarBorrado('<?= htmlspecialchars($cliente['nombre']) ?>');">
+                                            <input type="hidden" name="numero" value="<?= $cliente['numero'] ?>">
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="bi bi-trash"></i> Eliminar
+                                            </button>
+                                        </form>
                                     </div>
                                     <div class="card-footer bg-transparent">
                                         <a href="formUpdateCliente.php?numero=<?= $cliente['numero'] ?? 0 ?>&origen=mainAdmin" class="btn btn-sm btn-warning">
@@ -105,7 +125,7 @@ if (
                 <h3>Soportes</h3>
                 <div class="row row-cols-1 row-cols-md-2 g-3 mb-3">
                     <?php
-                    // Preferir el objeto Videoclub para listar productos; si no existe, usar el array de sesión
+                    // Listado de soportes (productos)
                     if (!is_null($vc)):
                         foreach ($vc->getProductos() as $soporte): ?>
                             <div class="col">
@@ -147,6 +167,11 @@ if (
         </div>
     </div>
 
+    <script>
+    function confirmarBorrado(nombre) {
+        return confirm('¿Seguro que deseas eliminar al cliente "' + nombre + '"? Esta acción no se puede deshacer.');
+    }
+    </script>
     <script src="vendor/scripts/bootstrap.min.js"></script>
 </body>
 
