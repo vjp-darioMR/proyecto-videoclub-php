@@ -312,6 +312,15 @@ class Videoclub
     {
         return $this->socios;
     }
+
+    public function setSocios($socios)
+    {
+        $this->socios = $socios;
+        // Reiniciar el contador de socios al número de socios existentes
+        $this->numSocios = count($socios);
+        return $this;
+    }
+
     public function getProductos()
     {
         return $this->productos;

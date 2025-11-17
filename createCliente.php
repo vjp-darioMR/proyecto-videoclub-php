@@ -43,6 +43,11 @@ if (!empty($errors)) {
 // Si existe el objeto Videoclub en sesión, usar su API. Si no, usar el array de prueba.
 if (isset($_SESSION['videoclub']) && is_object($_SESSION['videoclub'])) {
     $vc = $_SESSION['videoclub'];
+    
+    // Sincronizar el contador de socios con los socios existentes
+    $socios = $vc->getSocios();
+    $vc->setSocios($socios); // Reinicia numSocios al número correcto
+    
     // usar incluirSocio para que mantenga contadores internos
     $vc->incluirSocio($nombre, $maxAlq, $username, $password);
     // guardar objeto actualizado en sesión

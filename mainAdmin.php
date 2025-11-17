@@ -74,18 +74,18 @@ if ($vc && method_exists($vc, 'getSocios')) {
                                             <strong>Usuario:</strong> <?= htmlspecialchars($cliente->getUsername()) ?><br>
                                             <strong>Alquileres:</strong> <?= $cliente->getNumSoportesAlquilados() ?>
                                         </p>
+                                    </div>
+                                    <div class="card-footer bg-transparent d-flex gap-2">
+                                        <a href="formUpdateCliente.php?numero=<?= $cliente->getNumero() ?>&origen=mainAdmin" class="btn btn-sm btn-warning flex-grow-1">
+                                            <i class="bi bi-pencil"></i> Editar
+                                        </a>
                                         <!-- Formulario para eliminar cliente con confirmación JS -->
-                                        <form method="post" action="removeCliente.php" class="d-inline" onsubmit="return confirmarBorrado('<?= htmlspecialchars($cliente->getNombre()) ?>');">
+                                        <form method="post" action="removeCliente.php" class="flex-grow-1" onsubmit="return confirmarBorrado('<?= htmlspecialchars($cliente->getNombre()) ?>');">
                                             <input type="hidden" name="numero" value="<?= $cliente->getNumero() ?>">
-                                            <button type="submit" class="btn btn-sm btn-danger">
+                                            <button type="submit" class="btn btn-sm btn-danger w-100">
                                                 <i class="bi bi-trash"></i> Eliminar
                                             </button>
                                         </form>
-                                    </div>
-                                    <div class="card-footer bg-transparent">
-                                        <a href="formUpdateCliente.php?numero=<?= $cliente->getNumero() ?>&origen=mainAdmin" class="btn btn-sm btn-warning">
-                                            <i class="bi bi-pencil"></i> Editar
-                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -100,18 +100,18 @@ if ($vc && method_exists($vc, 'getSocios')) {
                                             <strong>Usuario:</strong> <?= htmlspecialchars($cliente['username']) ?><br>
                                             <strong>Alquileres:</strong> <?= count($cliente['alquileres']) ?>
                                         </p>
+                                    </div>
+                                    <div class="card-footer bg-transparent d-flex gap-2">
+                                        <a href="formUpdateCliente.php?numero=<?= $cliente['numero'] ?? 0 ?>&origen=mainAdmin" class="btn btn-sm btn-warning flex-grow-1">
+                                            <i class="bi bi-pencil"></i> Editar
+                                        </a>
                                         <!-- Formulario para eliminar cliente con confirmación JS -->
-                                        <form method="post" action="removeCliente.php" class="d-inline" onsubmit="return confirmarBorrado('<?= htmlspecialchars($cliente['nombre']) ?>');">
+                                        <form method="post" action="removeCliente.php" class="flex-grow-1" onsubmit="return confirmarBorrado('<?= htmlspecialchars($cliente['nombre']) ?>');">
                                             <input type="hidden" name="numero" value="<?= $cliente['numero'] ?>">
-                                            <button type="submit" class="btn btn-sm btn-danger">
+                                            <button type="submit" class="btn btn-sm btn-danger w-100">
                                                 <i class="bi bi-trash"></i> Eliminar
                                             </button>
                                         </form>
-                                    </div>
-                                    <div class="card-footer bg-transparent">
-                                        <a href="formUpdateCliente.php?numero=<?= $cliente['numero'] ?? 0 ?>&origen=mainAdmin" class="btn btn-sm btn-warning">
-                                            <i class="bi bi-pencil"></i> Editar
-                                        </a>
                                     </div>
                                 </div>
                             </div>
