@@ -21,9 +21,9 @@
                 <h1 class="h3 mb-4"><i class="bi bi-film text-primary"></i> Videoclub</h1>
 
                 <!-- Mensaje de error -->
-                <?php if (isset($_SESSION['error'])): ?>
+                <?php if (isset($_GET['error'])): ?>
                     <div class="alert alert-danger error-alert">
-                        <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
+                        Usuario o contraseña incorrectos.
                     </div>
                 <?php endif; ?>
 
@@ -33,7 +33,7 @@
                         <input type="text" name="usuario" class="form-control" placeholder="Usuario" required>
                     </div>
                     <div class="mb-3">
-                        <input type="password" name="password" class="form-control" placeholder Only accessible if logged in="Contraseña" required>
+                        <input type="password" name="password" class="form-control" placeholder="Contraseña" required>
                     </div>
                     <button type="submit" class="btn btn-primary w-100">
                         <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión

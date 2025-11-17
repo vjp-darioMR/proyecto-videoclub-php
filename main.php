@@ -17,8 +17,6 @@ $user = $_SESSION['user'];
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
 <body class="bg-light d-flex flex-column min-vh-100">
-    <?php include 'navbar.php'; ?>
-
     <div class="container mt-5">
         <div class="text-center">
             <h1><i class="bi bi-person-circle"></i> Bienvenido, <?= htmlspecialchars($user) ?>!</h1>

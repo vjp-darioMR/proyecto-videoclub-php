@@ -4,15 +4,13 @@ require_once "autoload.php";
 
 use Dwes\ProyectoVideoclub\{Videoclub, Cliente, CintaVideo, Dvd, Juego};
 
-$username = $_POST['username'] ?? '';
+$username = $_POST['usuario'] ?? '';
 $password = $_POST['password'] ?? '';
 
 // usuarios válidos
 $validUsers = [
     'admin' => 'admin',
-    'bruce' => 'gotham',
-    'clark' => 'dailyplanet',
-    'diana' => 'amazon'
+    'usuario' => 'usuario'
 ];
 
 if (!isset($validUsers[$username]) || $validUsers[$username] !== $password) {
