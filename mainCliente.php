@@ -24,8 +24,15 @@ $cliente = $_SESSION['user'];
 <body class="bg-light d-flex flex-column min-vh-100">
 
     <div class="container mt-5">
-        <h1>Mis Alquileres</h1>
-        <p class="lead">Hola, <strong><?= htmlspecialchars($cliente->getNombre()) ?></strong>.</p>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1>Mis Alquileres</h1>
+                <p class="lead mb-0">Hola, <strong><?= htmlspecialchars($cliente->getNombre()) ?></strong>.</p>
+            </div>
+            <a href="formUpdateCliente.php?numero=<?= $cliente->getNumero() ?>&origen=mainCliente" class="btn btn-warning">
+                <i class="bi bi-pencil"></i> Editar perfil
+            </a>
+        </div>
 
         <h3>Alquileres Actuales (<?= $cliente->getNumSoportesAlquilados() ?>)</h3>
 

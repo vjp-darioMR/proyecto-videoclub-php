@@ -69,6 +69,11 @@ if (
                                             <strong>Alquileres:</strong> <?= $cliente->getNumSoportesAlquilados() ?>
                                         </p>
                                     </div>
+                                    <div class="card-footer bg-transparent">
+                                        <a href="formUpdateCliente.php?numero=<?= $cliente->getNumero() ?>&origen=mainAdmin" class="btn btn-sm btn-warning">
+                                            <i class="bi bi-pencil"></i> Editar
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         <?php endforeach;
@@ -82,6 +87,11 @@ if (
                                             <strong>Usuario:</strong> <?= htmlspecialchars($cliente['username']) ?><br>
                                             <strong>Alquileres:</strong> <?= count($cliente['alquileres']) ?>
                                         </p>
+                                    </div>
+                                    <div class="card-footer bg-transparent">
+                                        <a href="formUpdateCliente.php?numero=<?= $cliente['numero'] ?? 0 ?>&origen=mainAdmin" class="btn btn-sm btn-warning">
+                                            <i class="bi bi-pencil"></i> Editar
+                                        </a>
                                     </div>
                                 </div>
                             </div>

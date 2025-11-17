@@ -132,4 +132,29 @@ class Cliente
     {
         return $this->password;
     }
+
+    // Setters para edición de datos
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+        return $this;
+    }
+
+    public function setUsername($username)
+    {
+        $this->username = $username;
+        return $this;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = $password;
+        return $this;
+    }
+
+    public function setMaxAlquilerConcurrente($maxAlquiler)
+    {
+        $this->maxAlquilerConcurrente = $maxAlquiler;
+        return $this;
+    }
 }
