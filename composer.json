@@ -11,13 +11,16 @@
   },
   "autoload": {
     "psr-4": {
-      "Dwes\\\\ProyectoVideoclub\\\\": "app/Dwes/ProyectoVideoclub/"
+      "Dwes\\ProyectoVideoclub\\": "app/Dwes/ProyectoVideoclub/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Dwes\\\\ProyectoVideoclub\\\\Tests\\": "test/"
+      "Dwes\\ProyectoVideoclub\\Tests\\": "test/"
     }
+  },
+  "scripts": {
+    "test": "phpunit"
   },
   "config": {
     "platform": {
