@@ -1,0 +1,27 @@
+{
+  "name": "yagog/proyecto-videoclub",
+  "description": "Proyecto Videoclub PHP",
+  "type": "project",
+  "require": {
+    "php": ">=7.4",
+    "monolog/monolog": "^3.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Dwes\\\\ProyectoVideoclub\\\\": "app/Dwes/ProyectoVideoclub/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Dwes\\\\ProyectoVideoclub\\\\Tests\\": "test/"
+    }
+  },
+  "config": {
+    "platform": {
+      "php": "7.4"
+    }
+  }
+}
