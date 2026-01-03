@@ -1,7 +1,9 @@
 <?php
 namespace Monolog;
 
-class Logger
+use Dwes\ProyectoVideoclub\Util\LogInterface;
+
+class Logger implements LogInterface
 {
     const INFO = 'info';
     const DEBUG = 'debug';

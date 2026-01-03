@@ -3,6 +3,7 @@
 namespace Dwes\ProyectoVideoclub\Util;
 
 use Monolog\Logger;
+use Dwes\ProyectoVideoclub\Util\LogInterface;
 
 class LogFactory
 {
@@ -11,7 +12,7 @@ class LogFactory
      * @param string $channel
      * @return Logger
      */
-    public static function createLogger(string $channel = 'VideoclubLogger'): Logger
+    public static function createLogger(string $channel = 'VideoclubLogger'): LogInterface
     {
         $projectRoot = dirname(__DIR__, 3);
         $logDir = $projectRoot . DIRECTORY_SEPARATOR . 'logs';
