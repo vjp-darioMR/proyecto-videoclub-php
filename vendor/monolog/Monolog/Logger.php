@@ -1,18 +1,20 @@
 <?php
 namespace Monolog;
 
-// Minimal Logger stub implementing a tiny subset of Monolog's API.
 class Logger
 {
     const INFO = 'info';
     const DEBUG = 'debug';
     const ERROR = 'error';
+    const WARNING = 'warning';
 
     private $name;
+    private $path;
 
-    public function __construct($name = 'app')
+    public function __construct($name = 'app', $path = null)
     {
         $this->name = $name;
+        $this->path = $path;
     }
 
     public function info($message, array $context = [])
@@ -30,10 +32,25 @@ class Logger
         $this->log(self::ERROR, $message, $context);
     }
 
+    public function warning($message, array $context = [])
+    {
+        $this->log(self::WARNING, $message, $context);
+    }
+
     public function log($level, $message, array $context = [])
     {
         $time = date('Y-m-d H:i:s');
-        $ctx = !empty($context) ? json_encode($context) : '';
-        error_log("[{$time}] {$this->name}.{$level}: {$message} {$ctx}");
+        $ctx = !empty($context) ? ' ' . json_encode($context) : '';
+        $line = "[{$time}] {$this->name}.{$level}: {$message}{$ctx}\n";
+
+        if ($this->path) {
+            $dir = dirname($this->path);
+            if (!is_dir($dir)) {
+                @mkdir($dir, 0755, true);
+            }
+            @file_put_contents($this->path, $line, FILE_APPEND | LOCK_EX);
+        } else {
+            error_log($line);
+        }
     }
 }
