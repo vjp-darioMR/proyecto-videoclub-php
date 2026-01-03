@@ -8,6 +8,7 @@ use Dwes\ProyectoVideoclub\Util\SoporteYaAlquiladoException;
 use Dwes\ProyectoVideoclub\Util\CupoSuperadoException;
 use Dwes\ProyectoVideoclub\Util\VideoclubException;
 use Monolog\Logger;
+use Dwes\ProyectoVideoclub\Util\LogFactory;
 
 // Clase principal que gestiona el videoclub: productos y socios
 class Videoclub
@@ -27,13 +28,7 @@ class Videoclub
     {
         $this->nombre = $nombre;
         // Inicializar logger: canal VideoclubLogger, fichero logs/videoclub.log
-        $projectRoot = dirname(__DIR__, 3);
-        $logDir = $projectRoot . DIRECTORY_SEPARATOR . 'logs';
-        if (!is_dir($logDir)) {
-            @mkdir($logDir, 0755, true);
-        }
-        $logPath = $logDir . DIRECTORY_SEPARATOR . 'videoclub.log';
-        $this->logger = new Logger('VideoclubLogger', $logPath);
+        $this->logger = LogFactory::createLogger('VideoclubLogger');
     }
 
     // Métodos para obtener estadísticas de alquileres
