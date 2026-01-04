@@ -3,7 +3,7 @@
 namespace Dwes\ProyectoVideoclub\Util;
 
 use Monolog\Logger;
-use Dwes\ProyectoVideoclub\Util\LogInterface;
+use Monolog\Handler\StreamHandler;
 
 class LogFactory
 {
@@ -22,6 +22,9 @@ class LogFactory
         }
         $logPath = $logDir . DIRECTORY_SEPARATOR . 'videoclub.log';
 
-        return new Logger($channel, $logPath);
+        $logger = new Logger($channel);
+        $logger->pushHandler(new StreamHandler($logPath, Logger::DEBUG));
+        /** @var LogInterface $logger */
+        return $logger;
     }
 }

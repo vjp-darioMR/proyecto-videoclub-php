@@ -4,6 +4,10 @@ logs/
 # Dependencias de Composer
 vendor/
 
+# PHPUnit
+.phpunit.cache/
+.phpunit.result.cache
+
 # IDEs
 .vscode/
 .idea/
