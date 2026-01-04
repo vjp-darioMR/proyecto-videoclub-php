@@ -121,8 +121,8 @@ class Videoclub
                 }
                 $productos[] = $prod;
             }
-                if ($socio->getNumSoportesAlquilados() + count($productos) > $socio->getMaxAlquilerConcurrerte()) {
-                    $this->logger->warning('Cupo superado al intentar alquilar varios productos', ['cliente' => $socio->getNumero(), 'intentados' => count($productos), 'maximo' => $socio->getMaxAlquilerConcurrerte()]);
+                if ($socio->getNumSoportesAlquilados() + count($productos) > $socio->getMaxAlquilerConcurrente()) {
+                    $this->logger->warning('Cupo superado al intentar alquilar varios productos', ['cliente' => $socio->getNumero(), 'intentados' => count($productos), 'maximo' => $socio->getMaxAlquilerConcurrente()]);
                     throw new CupoSuperadoException("No se pueden alquilar todos los productos: se superaría el máximo de alquileres.");
                 }
             foreach ($productos as $prod) {
