@@ -7,10 +7,13 @@ use Dwes\ProyectoVideoclub\Util\SoporteNoEncontradoException;
 use Dwes\ProyectoVideoclub\Util\SoporteYaAlquiladoException;
 use Dwes\ProyectoVideoclub\Util\CupoSuperadoException;
 use Dwes\ProyectoVideoclub\Util\VideoclubException;
+use Monolog\Logger;
+use Dwes\ProyectoVideoclub\Util\LogFactory;
 
 // Clase principal que gestiona el videoclub: productos y socios
 class Videoclub
 {
+    private $logger;
     private $nombre;
     private $productos = [];
     private $numProductos = 0;
@@ -24,6 +27,8 @@ class Videoclub
     public function __construct($nombre)
     {
         $this->nombre = $nombre;
+        // Inicializar logger: canal VideoclubLogger, fichero logs/videoclub.log
+        $this->logger = LogFactory::createLogger('VideoclubLogger');
     }
 
     // Métodos para obtener estadísticas de alquileres
@@ -63,11 +68,8 @@ class Videoclub
     private function incluirProducto($producto)
     {
         $this->productos[] = $producto;
-        // Mensaje visual de confirmación
-        echo '<div class="alert alert-dismissible alert-success mt-3">
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            <strong><i class="bi bi-check2"></i> Producto incluido!</strong> El producto "' . $producto->getTitulo() . '" (Número: ' . $producto->getNumero() . ') ha sido incluido con éxito.
-        </div>';
+        // Log de confirmación
+        $this->logger->info('Producto incluido: ' . $producto->getTitulo(), ['producto' => $producto->getNumero(), 'titulo' => $producto->getTitulo(), 'precio' => $producto->getPrecio()]);
     }
 
     // Añade un nuevo socio (cliente)
@@ -78,10 +80,7 @@ class Videoclub
 
         $this->socios[] = $cliente;
 
-        echo '<div class="alert alert-dismissible alert-warning mt-3">
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        <strong><i class="bi bi-person-check"></i> Socio incluido!</strong> El socio "' . $nombre . '" (Número: ' . $numero . ') ha sido incluido con éxito.
-    </div>';
+        $this->logger->info('Socio incluido: ' . $nombre, ['cliente' => $numero, 'nombre' => $nombre, 'username' => $username]);
 
         return $this;
     }
@@ -93,36 +92,18 @@ class Videoclub
             $socio = $this->buscarSocio($numeroCliente);
             $producto = $this->buscarProducto($numeroSoporte);
             $socio->alquilar($producto);
-            echo '<div class="alert alert-dismissible alert-info mt-3">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong><i class="bi bi-bag-check"></i> Alquiler realizado!</strong> Socio <span class="badge bg-info text-dark">' . $socio->getNumero() . '</span> ha alquilado <span class="badge bg-secondary">' . $producto->getTitulo() . '</span> con éxito.
-            </div>';
+            $this->logger->info('Alquiler realizado', ['cliente' => $socio->getNumero(), 'producto' => $producto->getNumero(), 'titulo' => $producto->getTitulo()]);
             return $this;
         } catch (ClienteNoEncontradoException $e) {
-            echo '<div class="alert alert-dismissible alert-danger mt-3">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong><i class="bi bi-exclamation-triangle"></i> Error:</strong> ' . $e->getMessage() . '
-            </div>';
+            $this->logger->info('Error cliente no encontrado al alquilar', ['cliente' => $numeroCliente, 'error' => $e->getMessage()]);
         } catch (SoporteNoEncontradoException $e) {
-            echo '<div class="alert alert-dismissible alert-danger mt-3">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong><i class="bi bi-exclamation-triangle"></i> Error:</strong> ' . $e->getMessage() . '
-            </div>';
+            $this->logger->info('Error soporte no encontrado al alquilar', ['soporte' => $numeroSoporte, 'error' => $e->getMessage()]);
         } catch (SoporteYaAlquiladoException $e) {
-            echo '<div class="alert alert-dismissible alert-danger mt-3">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong><i class="bi bi-x-circle"></i> Ya alquilado:</strong> ' . $e->getMessage() . '
-            </div>';
+            $this->logger->info('Soporte ya alquilado al intentar alquilar', ['soporte' => $numeroSoporte, 'cliente' => $numeroCliente, 'error' => $e->getMessage()]);
         } catch (CupoSuperadoException $e) {
-            echo '<div class="alert alert-dismissible alert-danger mt-3">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong><i class="bi bi-person-x"></i> Cupo superado:</strong> ' . $e->getMessage() . '
-            </div>';
+            $this->logger->info('Cupo superado al intentar alquilar', ['cliente' => $numeroCliente, 'error' => $e->getMessage()]);
         } catch (VideoclubException $e) {
-            echo '<div class="alert alert-dismissible alert-danger mt-3">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong><i class="bi bi-exclamation-triangle"></i> Error general:</strong> ' . $e->getMessage() . '
-            </div>';
+            $this->logger->info('Error general al alquilar', ['error' => $e->getMessage()]);
         }
     }
 
@@ -135,20 +116,19 @@ class Videoclub
             foreach ($numerosProductos as $numProd) {
                 $prod = $this->buscarProducto($numProd);
                 if ($prod->alquilado) {
-                    throw new SoporteYaAlquiladoException("El soporte " . $prod->getTitulo() . " ya está alquilado.");
+                        $this->logger->warning('Intento de alquiler de soporte ya alquilado', ['soporte' => $prod->getNumero(), 'titulo' => $prod->getTitulo()]);
+                        throw new SoporteYaAlquiladoException("El soporte " . $prod->getTitulo() . " ya está alquilado.");
                 }
                 $productos[] = $prod;
             }
-            if ($socio->getNumSoportesAlquilados() + count($productos) > $socio->getMaxAlquilerConcurrerte()) {
-                throw new CupoSuperadoException("No se pueden alquilar todos los productos: se superaría el máximo de alquileres.");
-            }
+                if ($socio->getNumSoportesAlquilados() + count($productos) > $socio->getMaxAlquilerConcurrerte()) {
+                    $this->logger->warning('Cupo superado al intentar alquilar varios productos', ['cliente' => $socio->getNumero(), 'intentados' => count($productos)]);
+                    throw new CupoSuperadoException("No se pueden alquilar todos los productos: se superaría el máximo de alquileres.");
+                }
             foreach ($productos as $prod) {
                 $socio->alquilar($prod);
             }
-            echo '<div class="alert alert-dismissible alert-info mt-3">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong><i class="bi bi-bag-check"></i> Alquileres realizados!</strong> Socio <span class="badge bg-info text-dark">' . $socio->getNumero() . '</span> ha alquilado <span class="badge bg-secondary">' . count($productos) . ' productos</span> con éxito.
-            </div>';
+            $this->logger->info('Alquileres realizados', ['cliente' => $socio->getNumero(), 'cantidad' => count($productos)]);
             return $this;
         } catch (ClienteNoEncontradoException $e) {
             echo '<div class="alert alert-dismissible alert-danger mt-3">
@@ -185,26 +165,14 @@ class Videoclub
             $socio = $this->buscarSocio($numSocio);
             $producto = $this->buscarProducto($numeroProducto);
             $socio->devolver($numeroProducto);
-            echo '<div class="alert alert-dismissible alert-success mt-3">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong><i class="bi bi-arrow-return-left"></i> Devolución realizada!</strong> Socio <span class="badge bg-success">' . $socio->getNumero() . '</span> ha devuelto <span class="badge bg-secondary">' . $producto->getTitulo() . '</span> con éxito.
-            </div>';
+            $this->logger->info('Devolución realizada', ['cliente' => $socio->getNumero(), 'producto' => $producto->getNumero(), 'titulo' => $producto->getTitulo()]);
             return $this;
         } catch (ClienteNoEncontradoException $e) {
-            echo '<div class="alert alert-dismissible alert-danger mt-3">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong><i class="bi bi-exclamation-triangle"></i> Error:</strong> ' . $e->getMessage() . '
-            </div>';
+            $this->logger->info('Error cliente no encontrado al devolver', ['cliente' => $numSocio, 'error' => $e->getMessage()]);
         } catch (SoporteNoEncontradoException $e) {
-            echo '<div class="alert alert-dismissible alert-danger mt-3">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong><i class="bi bi-exclamation-triangle"></i> Error:</strong> ' . $e->getMessage() . '
-            </div>';
+            $this->logger->info('Error soporte no encontrado al devolver', ['soporte' => $numeroProducto, 'error' => $e->getMessage()]);
         } catch (VideoclubException $e) {
-            echo '<div class="alert alert-dismissible alert-danger mt-3">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong><i class="bi bi-exclamation-triangle"></i> Error general:</strong> ' . $e->getMessage() . '
-            </div>';
+            $this->logger->info('Error general al devolver', ['error' => $e->getMessage()]);
         }
     }
 
@@ -224,10 +192,7 @@ class Videoclub
             foreach ($productos as $prod) {
                 $socio->devolver($prod->getNumero());
             }
-            echo '<div class="alert alert-dismissible alert-success mt-3">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong><i class="bi bi-arrow-return-left"></i> Devoluciones realizadas!</strong> Socio <span class="badge bg-success">' . $socio->getNumero() . '</span> ha devuelto <span class="badge bg-secondary">' . count($productos) . ' productos</span> con éxito.
-            </div>';
+            $this->logger->info('Devoluciones realizadas', ['cliente' => $socio->getNumero(), 'cantidad' => count($productos)]);
             return $this;
         } catch (ClienteNoEncontradoException $e) {
             echo '<div class="alert alert-dismissible alert-danger mt-3">
@@ -252,18 +217,10 @@ class Videoclub
     {
         if (count($this->productos) > 0) {
             foreach ($this->productos as $producto) {
-                echo '<div class="col">
-                        <div class="card border-primary mb-3 mx-2" style="max-width: 20rem;">
-                            <div class="card-header">' . $producto->getTitulo() . ' <span class="badge rounded-pill bg-primary">' . $producto->getNumero() . '</span></div>
-                            <div class="card-body">
-                                <h4 class="card-title text-center">Precio: ' . $producto->getPrecio() . ' euros</h4>
-                                <button type="button" class="btn btn-outline-success w-100">Alquilar</button>
-                            </div>
-                        </div>
-                    </div>';
+                $this->logger->info('Producto listado', ['producto' => $producto->getNumero(), 'titulo' => $producto->getTitulo(), 'precio' => $producto->getPrecio()]);
             }
         } else {
-            echo "No hay productos registrados.<br>";
+            $this->logger->info('No hay productos registrados');
         }
     }
 
@@ -272,18 +229,10 @@ class Videoclub
     {
         if (count($this->socios) > 0) {
             foreach ($this->socios as $socio) {
-                echo '<div class="col">
-                        <div class="card border-warning mb-3 mx-2" style="max-width: 20rem;">
-                            <div class="card-header">' . $socio->getNombre() . ' <span class="badge rounded-pill bg-warning text-dark">' . $socio->getNumero() . '</span></div>
-                            <div class="card-body">
-                                <h4 class="card-title text-center">Alquileres: ' . $socio->getNumSoportesAlquilados() . '</h4>
-                                <button type="button" class="btn btn-outline-primary w-100">Ver detalles</button>
-                            </div>
-                        </div>
-                    </div>';
+                $this->logger->info('Socio listado', ['cliente' => $socio->getNumero(), 'nombre' => $socio->getNombre(), 'alquileres' => $socio->getNumSoportesAlquilados()]);
             }
         } else {
-            echo "No hay socios registrados.<br>";
+            $this->logger->info('No hay socios registrados');
         }
     }
 
@@ -295,6 +244,9 @@ class Videoclub
                 return $socio;
             }
         }
+        if (isset($this->logger)) {
+            $this->logger->warning('Socio no encontrado', ['cliente' => $numeroCliente]);
+        }
         throw new ClienteNoEncontradoException("Socio con número " . $numeroCliente . " no encontrado.");
     }
 
@@ -305,6 +257,9 @@ class Videoclub
             if ($producto->getNumero() === $numeroSoporte) {
                 return $producto;
             }
+        }
+        if (isset($this->logger)) {
+            $this->logger->warning('Producto no encontrado', ['producto' => $numeroSoporte]);
         }
         throw new SoporteNoEncontradoException("Producto con número " . $numeroSoporte . " no encontrado.");
     }

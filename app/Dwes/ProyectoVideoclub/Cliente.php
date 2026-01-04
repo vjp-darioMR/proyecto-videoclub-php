@@ -5,6 +5,8 @@ namespace Dwes\ProyectoVideoclub;
 use Dwes\ProyectoVideoclub\Util\SoporteYaAlquiladoException;
 use Dwes\ProyectoVideoclub\Util\CupoSuperadoException;
 use Dwes\ProyectoVideoclub\Util\SoporteNoEncontradoException;
+use Monolog\Logger;
+use Dwes\ProyectoVideoclub\Util\LogFactory;
 
 class Cliente
 {
@@ -16,6 +18,7 @@ class Cliente
     private $username;
     private $password;
     private $soportesAlquilados = [];
+    private $logger;
 
     // Constructor: inicializa el cliente
     public function __construct($nombre, $numero, $maxAlquilerConcurrente = 3, $username = '', $password = '')
@@ -25,6 +28,9 @@ class Cliente
         $this->maxAlquilerConcurrente = $maxAlquilerConcurrente;
         $this->username = $username;
         $this->password = $password;
+
+        // Inicializar logger: canal VideoclubLogger, fichero logs/videoclub.log
+        $this->logger = LogFactory::createLogger('VideoclubLogger');
     }
 
     // Métodos para obtener información básica del cliente
@@ -57,11 +63,11 @@ class Cliente
     {
         foreach ($this->soportesAlquilados as $alquilado) {
             if ($alquilado === $soporte) {
-                echo "El soporte " . $soporte->getTitulo() . " ya está alquilado.<br>";
+                $this->logger->info('Soporte ya alquilado: ' . $soporte->getTitulo(), ['soporte' => $soporte->getNumero()]);
                 return true;
             }
         }
-        echo "El soporte " . $soporte->getTitulo() . " no está alquilado.<br>";
+        $this->logger->info('Soporte no alquilado: ' . $soporte->getTitulo(), ['soporte' => $soporte->getNumero()]);
         return false;
     }
 
@@ -69,9 +75,11 @@ class Cliente
     public function alquilar(Soporte $soporte)
     {
         if ($this->tieneAlquilado($soporte)) {
+            $this->logger->warning('Intento de alquiler de soporte ya alquilado: ' . $soporte->getTitulo(), ['soporte' => $soporte->getNumero(), 'cliente' => $this->numero]);
             throw new SoporteYaAlquiladoException("El soporte ya está alquilado por este cliente.");
         }
         if ($this->numSoportesAlquilados >= $this->maxAlquilerConcurrente) {
+            $this->logger->warning('Cupo superado al intentar alquilar: max ' . $this->maxAlquilerConcurrente, ['cliente' => $this->numero]);
             throw new CupoSuperadoException("No se puede alquilar: se ha superado el maximo de " . $this->maxAlquilerConcurrente . " alquileres.");
         }
         $this->soportesAlquilados[] = $soporte;
@@ -92,29 +100,20 @@ class Cliente
                 return $this;
             }
         }
+        $this->logger->warning('Intento de devolver soporte no alquilado: ' . $numSoporte, ['cliente' => $this->numero]);
         throw new SoporteNoEncontradoException("No se puede devolver: el soporte con número " . $numSoporte . " no está alquilado.");
     }
 
     // Muestra los alquileres actuales del cliente
     public function listarAlquileres()
     {
-        echo '<h2 class="mt-4 mb-4"><i class="bi bi-bag"></i> Alquileres: ' . $this->numSoportesAlquilados . '</h2>';
+        $this->logger->info('Alquileres actuales: ' . $this->numSoportesAlquilados, ['cliente' => $this->numero]);
         if ($this->numSoportesAlquilados > 0) {
-            echo '<div class="row row-cols-1 row-cols-md-3 g-3">';
             foreach ($this->soportesAlquilados as $soporte) {
-                echo '<div class="col">
-                        <div class="card border-success mb-3 mx-2" style="max-width: 20rem;">
-                            <div class="card-header">' . $soporte->getTitulo() . ' <span class="badge rounded-pill bg-success">' . $soporte->getNumero() . '</span></div>
-                            <div class="card-body text-center">
-                                <h4 class="card-title text-center">Precio: ' . $soporte->getPrecio() . ' €</h4>
-                                <span class="badge bg-success ">Alquilado</span>
-                            </div>
-                        </div>
-                    </div>';
+                $this->logger->info('Soporte alquilado: ' . $soporte->getTitulo(), ['soporte' => $soporte->getNumero(), 'precio' => $soporte->getPrecio()]);
             }
-            echo '</div>';
         } else {
-            echo '<div class="alert alert-info">No hay alquileres registrados.</div>';
+            $this->logger->info('No hay alquileres registrados para el cliente.', ['cliente' => $this->numero]);
         }
     }
 
