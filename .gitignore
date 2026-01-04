@@ -1,0 +1,20 @@
+# Directorio de logs
+logs/
+
+# Dependencias de Composer
+vendor/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos temporales
+*.tmp
+*.bak
