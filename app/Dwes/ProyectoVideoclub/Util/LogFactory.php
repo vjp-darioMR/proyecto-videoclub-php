@@ -9,12 +9,13 @@ class LogFactory
 {
     /**
      * Crear un logger para el proyecto que escriba en logs/videoclub.log
+     * mostrando todos los mensajes desde debug
      * @param string $channel
-     * @return Logger
+     * @return LogInterface
      */
     public static function createLogger(string $channel = 'VideoclubLogger'): LogInterface
     {
-        $projectRoot = dirname(__DIR__, 3);
+        $projectRoot = dirname(__DIR__, 4);
         $logDir = $projectRoot . DIRECTORY_SEPARATOR . 'logs';
         if (!is_dir($logDir)) {
             @mkdir($logDir, 0755, true);

@@ -1,0 +1,7 @@
+[2026-01-04 16:23:19] VideoclubLogger.info: Soporte no alquilado: Película Test {"soporte":100}
+[2026-01-04 16:23:19] VideoclubLogger.info: Soporte ya alquilado: Película Test {"soporte":100}
+[2026-01-04 16:23:19] VideoclubLogger.warning: Intento de alquiler de soporte ya alquilado: Película Test {"soporte":100,"cliente":999}
+[2026-01-04 16:23:20] VideoclubLogger.info: Soporte no alquilado: Película Test 2 {"soporte":101}
+[2026-01-04 16:23:20] VideoclubLogger.info: Soporte no alquilado: Película Test 3 {"soporte":102}
+[2026-01-04 16:23:20] VideoclubLogger.warning: Cupo superado al intentar alquilar: max 2 {"cliente":999}
+[2026-01-04 16:23:20] VideoclubLogger.warning: Intento de devolver soporte no alquilado: 999 {"cliente":999}
