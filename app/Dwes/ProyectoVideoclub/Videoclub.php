@@ -116,45 +116,30 @@ class Videoclub
             foreach ($numerosProductos as $numProd) {
                 $prod = $this->buscarProducto($numProd);
                 if ($prod->alquilado) {
-                        $this->logger->warning('Intento de alquiler de soporte ya alquilado', ['soporte' => $prod->getNumero(), 'titulo' => $prod->getTitulo()]);
+                        $this->logger->warning('Intento de alquiler de soporte ya alquilado', ['soporte' => $prod->getNumero(), 'titulo' => $prod->getTitulo(), 'cliente' => $numSocio]);
                         throw new SoporteYaAlquiladoException("El soporte " . $prod->getTitulo() . " ya está alquilado.");
                 }
                 $productos[] = $prod;
             }
                 if ($socio->getNumSoportesAlquilados() + count($productos) > $socio->getMaxAlquilerConcurrerte()) {
-                    $this->logger->warning('Cupo superado al intentar alquilar varios productos', ['cliente' => $socio->getNumero(), 'intentados' => count($productos)]);
+                    $this->logger->warning('Cupo superado al intentar alquilar varios productos', ['cliente' => $socio->getNumero(), 'intentados' => count($productos), 'maximo' => $socio->getMaxAlquilerConcurrerte()]);
                     throw new CupoSuperadoException("No se pueden alquilar todos los productos: se superaría el máximo de alquileres.");
                 }
             foreach ($productos as $prod) {
                 $socio->alquilar($prod);
             }
-            $this->logger->info('Alquileres realizados', ['cliente' => $socio->getNumero(), 'cantidad' => count($productos)]);
+            $this->logger->info('Alquileres realizados', ['cliente' => $socio->getNumero(), 'cantidad' => count($productos), 'productos' => $numerosProductos]);
             return $this;
         } catch (ClienteNoEncontradoException $e) {
-            echo '<div class="alert alert-dismissible alert-danger mt-3">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong><i class="bi bi-exclamation-triangle"></i> Error:</strong> ' . $e->getMessage() . '
-            </div>';
+            $this->logger->warning('Error cliente no encontrado al alquilar varios', ['cliente' => $numSocio, 'error' => $e->getMessage()]);
         } catch (SoporteNoEncontradoException $e) {
-            echo '<div class="alert alert-dismissible alert-danger mt-3">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong><i class="bi bi-exclamation-triangle"></i> Error:</strong> ' . $e->getMessage() . '
-            </div>';
+            $this->logger->warning('Error soporte no encontrado al alquilar varios', ['soportes' => $numerosProductos, 'cliente' => $numSocio, 'error' => $e->getMessage()]);
         } catch (SoporteYaAlquiladoException $e) {
-            echo '<div class="alert alert-dismissible alert-danger mt-3">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong><i class="bi bi-x-circle"></i> Ya alquilado:</strong> ' . $e->getMessage() . '
-            </div>';
+            $this->logger->warning('Soporte ya alquilado al intentar alquilar varios', ['soportes' => $numerosProductos, 'cliente' => $numSocio, 'error' => $e->getMessage()]);
         } catch (CupoSuperadoException $e) {
-            echo '<div class="alert alert-dismissible alert-danger mt-3">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong><i class="bi bi-person-x"></i> Cupo superado:</strong> ' . $e->getMessage() . '
-            </div>';
+            $this->logger->warning('Cupo superado al alquilar varios productos', ['cliente' => $numSocio, 'cantidad_solicitada' => count($numerosProductos), 'error' => $e->getMessage()]);
         } catch (VideoclubException $e) {
-            echo '<div class="alert alert-dismissible alert-danger mt-3">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong><i class="bi bi-exclamation-triangle"></i> Error general:</strong> ' . $e->getMessage() . '
-            </div>';
+            $this->logger->warning('Error general al alquilar varios', ['cliente' => $numSocio, 'error' => $e->getMessage()]);
         }
     }
 
@@ -185,6 +170,7 @@ class Videoclub
             foreach ($numerosProductos as $numProd) {
                 $prod = $this->buscarProducto($numProd);
                 if (!$socio->tieneAlquilado($prod)) {
+                    $this->logger->warning('Intento de devolver soporte no alquilado por socio', ['producto' => $prod->getNumero(), 'titulo' => $prod->getTitulo(), 'cliente' => $numSocio]);
                     throw new SoporteNoEncontradoException("El soporte " . $prod->getTitulo() . " no está alquilado por este socio.");
                 }
                 $productos[] = $prod;
@@ -192,23 +178,14 @@ class Videoclub
             foreach ($productos as $prod) {
                 $socio->devolver($prod->getNumero());
             }
-            $this->logger->info('Devoluciones realizadas', ['cliente' => $socio->getNumero(), 'cantidad' => count($productos)]);
+            $this->logger->info('Devoluciones realizadas', ['cliente' => $socio->getNumero(), 'cantidad' => count($productos), 'productos' => $numerosProductos]);
             return $this;
         } catch (ClienteNoEncontradoException $e) {
-            echo '<div class="alert alert-dismissible alert-danger mt-3">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong><i class="bi bi-exclamation-triangle"></i> Error:</strong> ' . $e->getMessage() . '
-            </div>';
+            $this->logger->warning('Error cliente no encontrado al devolver varios', ['cliente' => $numSocio, 'error' => $e->getMessage()]);
         } catch (SoporteNoEncontradoException $e) {
-            echo '<div class="alert alert-dismissible alert-danger mt-3">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong><i class="bi bi-exclamation-triangle"></i> Error:</strong> ' . $e->getMessage() . '
-            </div>';
+            $this->logger->warning('Error soporte no encontrado al devolver varios', ['soportes' => $numerosProductos, 'cliente' => $numSocio, 'error' => $e->getMessage()]);
         } catch (VideoclubException $e) {
-            echo '<div class="alert alert-dismissible alert-danger mt-3">
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <strong><i class="bi bi-exclamation-triangle"></i> Error general:</strong> ' . $e->getMessage() . '
-            </div>';
+            $this->logger->warning('Error general al devolver varios', ['cliente' => $numSocio, 'error' => $e->getMessage()]);
         }
     }
 
@@ -217,10 +194,10 @@ class Videoclub
     {
         if (count($this->productos) > 0) {
             foreach ($this->productos as $producto) {
-                $this->logger->info('Producto listado', ['producto' => $producto->getNumero(), 'titulo' => $producto->getTitulo(), 'precio' => $producto->getPrecio()]);
+                $this->logger->info('Producto listado', ['producto' => $producto->getNumero(), 'titulo' => $producto->getTitulo(), 'precio' => $producto->getPrecio(), 'alquilado' => $producto->alquilado]);
             }
         } else {
-            $this->logger->info('No hay productos registrados');
+            $this->logger->info('No hay productos registrados', ['videoclub' => $this->nombre]);
         }
     }
 
@@ -229,10 +206,10 @@ class Videoclub
     {
         if (count($this->socios) > 0) {
             foreach ($this->socios as $socio) {
-                $this->logger->info('Socio listado', ['cliente' => $socio->getNumero(), 'nombre' => $socio->getNombre(), 'alquileres' => $socio->getNumSoportesAlquilados()]);
+                $this->logger->info('Socio listado', ['cliente' => $socio->getNumero(), 'nombre' => $socio->getNombre(), 'alquileres' => $socio->getNumSoportesAlquilados(), 'maximo' => $socio->getMaxAlquilerConcurrente()]);
             }
         } else {
-            $this->logger->info('No hay socios registrados');
+            $this->logger->info('No hay socios registrados', ['videoclub' => $this->nombre]);
         }
     }
 
