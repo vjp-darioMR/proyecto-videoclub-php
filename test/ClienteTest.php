@@ -348,4 +348,112 @@ class ClienteTest extends TestCase
         $this->assertTrue($cliente1->tieneAlquilado($soporte));
         $this->assertFalse($cliente2->tieneAlquilado($soporte));
     }
+
+    /**
+     * @test
+     * Prueba listar alquileres del cliente
+     */
+    public function testListarAlquileresVacio()
+    {
+        $cliente = new Cliente('Test', 1, 5);
+        $cliente->listarAlquileres();
+        // No debe lanzar excepción
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @test
+     * Prueba listar alquileres con contenido
+     */
+    public function testListarAlquileresConContenido()
+    {
+        $cliente = new Cliente('Test', 1, 5);
+        $cliente->alquilar($this->cintas[0]);
+        $cliente->alquilar($this->dvds[0]);
+        $cliente->listarAlquileres();
+        // No debe lanzar excepción
+        $this->assertEquals(2, $cliente->getNumSoportesAlquilados());
+    }
+
+    /**
+     * @test
+     * Prueba métodos getter de Cliente
+     */
+    public function testClienteGetters()
+    {
+        $cliente = new Cliente('Juan Pérez', 5, 3, 'juan', 'pass123');
+        
+        // Verificar todos los getters funcionan correctamente
+        $this->assertEquals('Juan Pérez', $cliente->getNombre());
+        $this->assertEquals(5, $cliente->getNumero());
+        $this->assertEquals(3, $cliente->getMaxAlquilerConcurrente());
+        $this->assertEquals('juan', $cliente->getUsername());
+        $this->assertEquals('pass123', $cliente->getPassword());
+    }
+
+    /**
+     * @test
+     * Prueba obtener alquileres como array
+     */
+    public function testGetAlquileres()
+    {
+        $cliente = new Cliente('Test', 1, 5);
+        $alquileres = $cliente->getAlquileres();
+        
+        $this->assertIsArray($alquileres);
+        $this->assertCount(0, $alquileres);
+        
+        // Alquilar algunos soportes
+        $cliente->alquilar($this->cintas[0]);
+        $cliente->alquilar($this->dvds[0]);
+        
+        $alquileres = $cliente->getAlquileres();
+        $this->assertCount(2, $alquileres);
+    }
+
+    /**
+     * @test
+     * Prueba obtener soporte específico de alquileres
+     */
+    public function testObtenerSoporteAlquilado()
+    {
+        $cliente = new Cliente('Test', 1, 5);
+        $cliente->alquilar($this->cintas[0]);
+        $cliente->alquilar($this->dvds[0]);
+        
+        $alquileres = $cliente->getAlquileres();
+        $this->assertEquals('Avatar', $alquileres[0]->getTitulo());
+        $this->assertEquals('Inception', $alquileres[1]->getTitulo());
+    }
+
+    /**
+     * @test
+     * Prueba obtener getter de username
+     */
+    public function testObtenerUsername()
+    {
+        $cliente = new Cliente('Test', 1, 3, 'miusuario', 'mipass');
+        $this->assertEquals('miusuario', $cliente->getUsername());
+    }
+
+    /**
+     * @test
+     * Prueba obtener getter de password
+     */
+    public function testObtenerPassword()
+    {
+        $cliente = new Cliente('Test', 1, 3, 'miusuario', 'mipass');
+        $this->assertEquals('mipass', $cliente->getPassword());
+    }
+
+    /**
+     * @test
+     * Prueba cliente sin username/password
+     */
+    public function testClienteSinCredenciales()
+    {
+        $cliente = new Cliente('Test', 1, 3);
+        $this->assertEquals('', $cliente->getUsername());
+        $this->assertEquals('', $cliente->getPassword());
+    }
 }

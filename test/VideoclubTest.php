@@ -478,4 +478,240 @@ class VideoclubTest extends TestCase
         $this->videoclub->devolverSocioProductos(1, [1, 3]);
         $this->assertEquals(0, $this->videoclub->getSocios()[0]->getNumSoportesAlquilados());
     }
+
+    /**
+     * @test
+     * Prueba alquiler de producto a cliente no encontrado
+     */
+    public function testAlquilaSocioProductoClienteNoEncontrado()
+    {
+        $this->videoclub->incluirCintaVideo('Avatar', 3.5, 120);
+        $this->videoclub->alquilaSocioProducto(999, 1);
+        // No debe lanzar excepción (está capturada), simplemente no hacer nada
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @test
+     * Prueba alquiler de producto no encontrado
+     */
+    public function testAlquilaSocioProductoProductoNoEncontrado()
+    {
+        $this->videoclub->incluirSocio('Juan', 3);
+        $this->videoclub->alquilaSocioProducto(1, 999);
+        // No debe lanzar excepción (está capturada), simplemente no hacer nada
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @test
+     * Prueba alquiler de producto ya alquilado
+     */
+    public function testAlquilaSocioProductoYaAlquilado()
+    {
+        $this->videoclub->incluirCintaVideo('Avatar', 3.5, 120);
+        $this->videoclub->incluirSocio('Juan', 3);
+        $this->videoclub->incluirSocio('Maria', 3);
+        
+        // Primer alquiler exitoso
+        $this->videoclub->alquilaSocioProducto(1, 1);
+        $this->assertTrue($this->videoclub->getProductos()[0]->alquilado);
+        
+        // Segundo alquiler del mismo producto a otro cliente
+        $this->videoclub->alquilaSocioProducto(2, 1);
+        // No debe lanzar excepción (está capturada), simplemente no hacer nada
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @test
+     * Prueba alquiler superando cupo de un socio
+     */
+    public function testAlquilaSocioProductoCupoSuperado()
+    {
+        // Crear 3 productos
+        $this->videoclub->incluirCintaVideo('Avatar', 3.5, 120);
+        $this->videoclub->incluirCintaVideo('Titanic', 2.5, 194);
+        $this->videoclub->incluirCintaVideo('Inception', 4.5, 148);
+        
+        // Crear socio con cupo 2
+        $this->videoclub->incluirSocio('Juan', 2);
+        
+        // Alquilar hasta el límite
+        $this->videoclub->alquilaSocioProducto(1, 1);
+        $this->videoclub->alquilaSocioProducto(1, 2);
+        $this->assertEquals(2, $this->videoclub->getSocios()[0]->getNumSoportesAlquilados());
+        
+        // Intentar exceder el cupo
+        $this->videoclub->alquilaSocioProducto(1, 3);
+        // No debe lanzar excepción (está capturada), seguir con 2 alquileres
+        $this->assertEquals(2, $this->videoclub->getSocios()[0]->getNumSoportesAlquilados());
+    }
+
+    /**
+     * @test
+     * Prueba alquiler múltiple con cliente no encontrado
+     */
+    public function testAlquilarSocioProductosClienteNoEncontrado()
+    {
+        $this->videoclub->incluirCintaVideo('Avatar', 3.5, 120);
+        $this->videoclub->incluirCintaVideo('Titanic', 2.5, 194);
+        $this->videoclub->alquilarSocioProductos(999, [1, 2]);
+        // No debe lanzar excepción (está capturada)
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @test
+     * Prueba alquiler múltiple con producto no encontrado
+     */
+    public function testAlquilarSocioProductosSoporteNoEncontrado()
+    {
+        $this->videoclub->incluirCintaVideo('Avatar', 3.5, 120);
+        $this->videoclub->incluirSocio('Juan', 3);
+        $this->videoclub->alquilarSocioProductos(1, [1, 999]);
+        // No debe lanzar excepción (está capturada), socio sin alquileres
+        $this->assertEquals(0, $this->videoclub->getSocios()[0]->getNumSoportesAlquilados());
+    }
+
+    /**
+     * @test
+     * Prueba alquiler múltiple con soporte ya alquilado
+     */
+    public function testAlquilarSocioProductosSoporteYaAlquilado()
+    {
+        $this->videoclub->incluirCintaVideo('Avatar', 3.5, 120);
+        $this->videoclub->incluirCintaVideo('Titanic', 2.5, 194);
+        $this->videoclub->incluirSocio('Juan', 3);
+        $this->videoclub->incluirSocio('Maria', 3);
+        
+        // Alquilar Avatar a Juan
+        $this->videoclub->alquilaSocioProducto(1, 1);
+        
+        // Intentar alquilar Avatar a Maria en lote
+        $this->videoclub->alquilarSocioProductos(2, [1, 2]);
+        // No debe lanzar excepción (está capturada), Maria sin alquileres
+        $this->assertEquals(0, $this->videoclub->getSocios()[1]->getNumSoportesAlquilados());
+    }
+
+    /**
+     * @test
+     * Prueba alquiler múltiple superando cupo
+     */
+    public function testAlquilarSocioProductosCupoSuperado()
+    {
+        $this->videoclub->incluirCintaVideo('Avatar', 3.5, 120);
+        $this->videoclub->incluirCintaVideo('Titanic', 2.5, 194);
+        $this->videoclub->incluirCintaVideo('Inception', 4.5, 148);
+        $this->videoclub->incluirCintaVideo('The Matrix', 3.0, 136);
+        
+        // Crear socio con cupo 2
+        $this->videoclub->incluirSocio('Juan', 2);
+        
+        // Intentar alquilar 3 productos en lote
+        $this->videoclub->alquilarSocioProductos(1, [1, 2, 3]);
+        // No debe lanzar excepción (está capturada), sin alquileres
+        $this->assertEquals(0, $this->videoclub->getSocios()[0]->getNumSoportesAlquilados());
+    }
+
+    /**
+     * @test
+     * Prueba devolución de producto a cliente no encontrado
+     */
+    public function testDevolverSocioProductoClienteNoEncontrado()
+    {
+        $this->videoclub->incluirCintaVideo('Avatar', 3.5, 120);
+        $this->videoclub->devolverSocioProducto(999, 1);
+        // No debe lanzar excepción (está capturada)
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @test
+     * Prueba devolución de producto no encontrado
+     */
+    public function testDevolverSocioProductoProductoNoEncontrado()
+    {
+        $this->videoclub->incluirSocio('Juan', 3);
+        $this->videoclub->devolverSocioProducto(1, 999);
+        // No debe lanzar excepción (está capturada)
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @test
+     * Prueba devolución múltiple con cliente no encontrado
+     */
+    public function testDevolverSocioProductosClienteNoEncontrado()
+    {
+        $this->videoclub->incluirCintaVideo('Avatar', 3.5, 120);
+        $this->videoclub->incluirCintaVideo('Titanic', 2.5, 194);
+        $this->videoclub->devolverSocioProductos(999, [1, 2]);
+        // No debe lanzar excepción (está capturada)
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @test
+     * Prueba devolución múltiple con producto no alquilado
+     */
+    public function testDevolverSocioProductosSoporteNoAlquilado()
+    {
+        $this->videoclub->incluirCintaVideo('Avatar', 3.5, 120);
+        $this->videoclub->incluirCintaVideo('Titanic', 2.5, 194);
+        $this->videoclub->incluirSocio('Juan', 3);
+        
+        // Intentar devolver sin haber alquilado
+        $this->videoclub->devolverSocioProductos(1, [1, 2]);
+        // No debe lanzar excepción (está capturada)
+        $this->assertEquals(0, $this->videoclub->getSocios()[0]->getNumSoportesAlquilados());
+    }
+
+    /**
+     * @test
+     * Prueba listar productos vacío
+     */
+    public function testListarProductosVacio()
+    {
+        $this->videoclub->listarProductos();
+        // No debe lanzar excepción
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @test
+     * Prueba listar productos con contenido
+     */
+    public function testListarProductosConContenido()
+    {
+        $this->videoclub->incluirCintaVideo('Avatar', 3.5, 120);
+        $this->videoclub->incluirDvd('Inception', 4.5, ['ES', 'EN'], '16:9');
+        $this->videoclub->listarProductos();
+        // No debe lanzar excepción
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @test
+     * Prueba listar socios vacío
+     */
+    public function testListarSociosVacio()
+    {
+        $this->videoclub->listarSocios();
+        // No debe lanzar excepción
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @test
+     * Prueba listar socios con contenido
+     */
+    public function testListarSociosConContenido()
+    {
+        $this->videoclub->incluirSocio('Juan', 2);
+        $this->videoclub->incluirSocio('Maria', 3);
+        $this->videoclub->listarSocios();
+        // No debe lanzar excepción
+        $this->assertTrue(true);
+    }
 }

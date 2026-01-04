@@ -103,4 +103,42 @@ class SoporteTest extends TestCase
         $this->assertEquals(10.00, $soporte2->getPrecio());
         $this->assertNotEquals($soporte1->getPrecio(), $soporte2->getPrecio());
     }
+
+    public function testPrecioConIVAFormatted()
+    {
+        $precioSinIVA = 50;
+        $soporte = new CintaVideo("Test", 1, $precioSinIVA, 60);
+        $precioConIVA = $soporte->getPrecioConIVA();
+        
+        // Debe ser exactamente 50 * 1.21 = 60.5
+        $this->assertEquals(60.5, $precioConIVA);
+    }
+
+    public function testPrecioConIVAForZero()
+    {
+        $soporte = new CintaVideo("Free", 1, 0.00, 60);
+        $this->assertEquals(0.00, $soporte->getPrecioConIVA());
+    }
+
+    public function testMuestraResumenContainsPrecioConIVA()
+    {
+        $soporte = new CintaVideo("Test", 1, 10.00, 60);
+        $resultado = $soporte->muestraResumen();
+        
+        // Debe contener tanto el precio sin IVA como con IVA
+        $this->assertStringContainsString("10", $resultado);
+        $this->assertStringContainsString("12.1", $resultado);
+    }
+
+    public function testMuestraResumenEchos()
+    {
+        // Capturar salida de echo
+        ob_start();
+        $this->soporte->muestraResumen();
+        $output = ob_get_clean();
+        
+        // Debe haber salida
+        $this->assertNotEmpty($output);
+        $this->assertStringContainsString("badge", $output);
+    }
 }
