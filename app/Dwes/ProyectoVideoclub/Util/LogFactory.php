@@ -11,9 +11,9 @@ class LogFactory
      * Crear un logger para el proyecto que escriba en logs/videoclub.log
      * mostrando todos los mensajes desde debug
      * @param string $channel
-     * @return LogInterface
+     * @return \Psr\Log\LoggerInterface
      */
-    public static function createLogger(string $channel = 'VideoclubLogger'): LogInterface
+    public static function createLogger(string $channel = 'VideoclubLogger'): \Psr\Log\LoggerInterface
     {
         $projectRoot = dirname(__DIR__, 4);
         $logDir = $projectRoot . DIRECTORY_SEPARATOR . 'logs';
@@ -24,7 +24,6 @@ class LogFactory
 
         $logger = new Logger($channel);
         $logger->pushHandler(new StreamHandler($logPath, Logger::DEBUG));
-        /** @var LogInterface $logger */
         return $logger;
     }
 }

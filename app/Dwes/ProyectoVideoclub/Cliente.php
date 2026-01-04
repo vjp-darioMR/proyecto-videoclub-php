@@ -5,7 +5,7 @@ namespace Dwes\ProyectoVideoclub;
 use Dwes\ProyectoVideoclub\Util\SoporteYaAlquiladoException;
 use Dwes\ProyectoVideoclub\Util\CupoSuperadoException;
 use Dwes\ProyectoVideoclub\Util\SoporteNoEncontradoException;
-use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Dwes\ProyectoVideoclub\Util\LogFactory;
 
 class Cliente

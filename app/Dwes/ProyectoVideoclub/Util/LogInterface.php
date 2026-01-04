@@ -2,8 +2,10 @@
 
 namespace Dwes\ProyectoVideoclub\Util;
 
-use Psr\Log\LoggerInterface as PsrLoggerInterface;
+use Psr\Log\LoggerInterface;
 
-interface LogInterface extends PsrLoggerInterface
+// LogInterface es un alias para PSR-3 LoggerInterface
+// Monolog\Logger implementa esta interfaz
+interface LogInterface extends LoggerInterface
 {
 }
