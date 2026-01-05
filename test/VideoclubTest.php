@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Dwes\ProyectoVideoclub\Videoclub;
 use Dwes\ProyectoVideoclub\CintaVideo;
 use Dwes\ProyectoVideoclub\Dvd;
+use Dwes\ProyectoVideoclub\Bluray;
 use Dwes\ProyectoVideoclub\Juego;
 use Dwes\ProyectoVideoclub\Exception\ClienteNoEncontradoException;
 use Dwes\ProyectoVideoclub\Exception\ClienteNoExisteException;
@@ -60,6 +61,22 @@ class VideoclubTest extends TestCase
         $productos = $this->videoclub->getProductos();
         $this->assertCount(2, $productos);
         $this->assertEquals('Inception', $productos[0]->getTitulo());
+    }
+
+    /**
+     * @test
+     * Prueba incluir Blurays
+     */
+    public function testIncluirBlurays()
+    {
+        $this->videoclub->incluirBluray('Avatar: The Way of Water', 5.5, 192, true);
+        $this->videoclub->incluirBluray('Interstellar', 4.5, 169, false);
+        
+        $productos = $this->videoclub->getProductos();
+        $this->assertCount(2, $productos);
+        $this->assertEquals('Avatar: The Way of Water', $productos[0]->getTitulo());
+        $this->assertTrue($productos[0]->getIs4k());
+        $this->assertFalse($productos[1]->getIs4k());
     }
 
     /**

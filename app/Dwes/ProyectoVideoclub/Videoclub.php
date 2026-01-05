@@ -58,6 +58,13 @@ class Videoclub
         return $this;
     }
 
+    public function incluirBluray($titulo, $precio, $duracion, $is4k)
+    {
+        $bluray = new Bluray($titulo, ++$this->numProductos, $precio, $duracion, $is4k);
+        $this->incluirProducto($bluray);
+        return $this;
+    }
+
     public function incluirJuego($titulo, $precio, $consola, $minJugadores, $maxJugadores)
     {
         $juego = new Juego($titulo, ++$this->numProductos, $precio, $consola, $minJugadores, $maxJugadores);
