@@ -1,2 +1,26 @@
-# El TODO era personal, asi que ya no lo necesitamos
-TODO.md
+# Directorio de logs
+logs/
+
+# Dependencias de Composer
+vendor/
+
+# PHPUnit
+.phpunit.cache/
+.phpunit.result.cache
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos temporales
+*.tmp
+*.bak
+# TODOs personales
+todo.md
