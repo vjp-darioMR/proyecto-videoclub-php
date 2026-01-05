@@ -23,15 +23,17 @@ class Juego extends Soporte implements Resumible {
 
     // Muestra un resumen visual del juego
     public function muestraResumen() {
-        echo "<div class='col'>";
-        echo "<div class='card border-info mb-3 mx-2' style='max-width: 20rem;'>";
-        echo "<div class='card-header bg-info text-dark'>" . $this->getTitulo() . " <span class='badge rounded-pill bg-light text-dark'>" . $this->getNumero() . "</span></div>";
-        echo "<div class='card-body'>";
-        echo "<h5 class='card-title'>Precio: " . $this->getPrecio() . " €</h5>";
-        echo "<p class='card-text'>Precio con IVA: " . number_format($this->getPrecioConIVA(), 2) . " €</p>";
-        echo "<p class='card-text'><i class='bi bi-controller'></i> Consola: " . $this->consola . "</p>";
-        echo "<p class='card-text'><i class='bi bi-people'></i> De " . $this->minNumJugadores . " a " . $this->maxNumJugadores . " jugadores</p>";
-        echo "</div></div></div>";
+        $html = "<div class='col'>";
+        $html .= "<div class='card border-info mb-3 mx-2' style='max-width: 20rem;'>";
+        $html .= "<div class='card-header bg-info text-dark'>" . $this->getTitulo() . " <span class='badge rounded-pill bg-light text-dark'>" . $this->getNumero() . "</span></div>";
+        $html .= "<div class='card-body'>";
+        $html .= "<h5 class='card-title'>Precio: " . $this->getPrecio() . " €</h5>";
+        $html .= "<p class='card-text'>Precio con IVA: " . number_format($this->getPrecioConIVA(), 2) . " €</p>";
+        $html .= "<p class='card-text'><i class='bi bi-controller'></i> Consola: " . $this->consola . "</p>";
+        $html .= "<p class='card-text'><i class='bi bi-people'></i> De " . $this->minNumJugadores . " a " . $this->maxNumJugadores . " jugadores</p>";
+        $html .= "</div></div></div>";
+        echo $html;
+        return $html;
     }
 }
 ?>

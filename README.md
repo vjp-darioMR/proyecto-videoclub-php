@@ -158,6 +158,24 @@ TODO.md
 3. Accede al archivo index.php para probar la gestión de usuarios / o home.php para probar los tests de uso
 4. Asegúrate de tener configurado el autoloading para cargar las clases correctamente.
 
+### Usar Composer (recomendado)
+
+Si clonas este repositorio, instala las dependencias y genera el autoload de Composer:
+
+```bash
+cd proyecto-videoclub-php
+composer install
+composer dump-autoload
+```
+
+Después puedes ejecutar los tests con:
+
+```bash
+vendor/bin/phpunit --bootstrap vendor/autoload.php test
+```
+
+Si no tienes Composer instalado, visita https://getcomposer.org/download/ para instrucciones.
+
 ## Créditos
 
 Desarrollado por Yago García Alonso y Darío Muñoz Rodríguez siguiendo la guía y el estilo de documentación de [Aitor Medrano](https://aitor-medrano.github.io/dwes2122/03phpoo.html#proyecto-videoclub).

@@ -63,7 +63,7 @@
                 <!-- Pestaña de testing con accesos directos -->
                 <div class="tab-pane fade active show" id="testing" role="tabpanel">
                     <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                        <a class="btn btn-primary btn-lg" href="test/inicio.php"><i class="bi bi-play-circle"></i> ´`Ir a inicio.php</a>
+                        <a class="btn btn-primary btn-lg" href="test/inicio.php"><i class="bi bi-play-circle"></i> Ir a inicio.php</a>
                         <a class="btn btn-secondary btn-lg" href="test/inicio2.php"><i class="bi bi-play-btn"></i> Ir a inicio2.php</a>
                         <a class="btn btn-success btn-lg" href="test/inicio3.php"><i class="bi bi-controller"></i> Ir a inicio3.php</a>
                     </div>

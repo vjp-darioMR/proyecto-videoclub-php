@@ -1,0 +1,19 @@
+[2026-01-04 16:21:13] VideoclubLogger.info: Soporte no alquilado: 1 {"soporte":"Avatar"}
+[2026-01-04 16:21:13] VideoclubLogger.info: Soporte ya alquilado: 1 {"soporte":"Avatar"}
+[2026-01-04 16:21:13] VideoclubLogger.warning: Intento de alquiler de soporte ya alquilado: 1 {"soporte":"Avatar","cliente":1}
+[2026-01-04 16:21:13] VideoclubLogger.info: Alquileres actuales: 1 {"cliente":1}
+[2026-01-04 16:21:13] VideoclubLogger.info: Soporte alquilado: 1 {"soporte":"Avatar","precio":2009}
+[2026-01-04 16:21:26] VideoclubLogger.info: Soporte no alquilado: Avatar {"soporte":1}
+[2026-01-04 16:21:26] VideoclubLogger.info: Soporte ya alquilado: Avatar {"soporte":1}
+[2026-01-04 16:21:26] VideoclubLogger.warning: Intento de alquiler de soporte ya alquilado: Avatar {"soporte":1,"cliente":1}
+[2026-01-04 16:21:26] VideoclubLogger.info: Alquileres actuales: 1 {"cliente":1}
+[2026-01-04 16:21:26] VideoclubLogger.info: Soporte alquilado: Avatar {"soporte":1,"precio":3.5}
+[2026-01-04 16:21:39] VideoclubLogger.info: Soporte no alquilado: Avatar {"soporte":1}
+[2026-01-04 16:21:39] VideoclubLogger.info: Soporte ya alquilado: Avatar {"soporte":1}
+[2026-01-04 16:21:39] VideoclubLogger.warning: Intento de alquiler de soporte ya alquilado: Avatar {"soporte":1,"cliente":1}
+[2026-01-04 16:21:39] VideoclubLogger.info: Alquileres actuales: 1 {"cliente":1}
+[2026-01-04 16:21:39] VideoclubLogger.info: Soporte alquilado: Avatar {"soporte":1,"precio":3.5}
+[2026-01-04 16:21:51] TestLogger.info: Este es un mensaje de info
+[2026-01-04 16:21:51] TestLogger.warning: Este es un warning
+[2026-01-04 16:22:08] TestLogger.info: Este es un mensaje de info
+[2026-01-04 16:22:08] TestLogger.warning: Este es un warning
