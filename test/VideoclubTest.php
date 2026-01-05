@@ -7,10 +7,11 @@ use Dwes\ProyectoVideoclub\Videoclub;
 use Dwes\ProyectoVideoclub\CintaVideo;
 use Dwes\ProyectoVideoclub\Dvd;
 use Dwes\ProyectoVideoclub\Juego;
-use Dwes\ProyectoVideoclub\Util\ClienteNoEncontradoException;
-use Dwes\ProyectoVideoclub\Util\SoporteNoEncontradoException;
-use Dwes\ProyectoVideoclub\Util\SoporteYaAlquiladoException;
-use Dwes\ProyectoVideoclub\Util\CupoSuperadoException;
+use Dwes\ProyectoVideoclub\Exception\ClienteNoEncontradoException;
+use Dwes\ProyectoVideoclub\Exception\ClienteNoExisteException;
+use Dwes\ProyectoVideoclub\Exception\SoporteNoEncontradoException;
+use Dwes\ProyectoVideoclub\Exception\SoporteYaAlquiladoException;
+use Dwes\ProyectoVideoclub\Exception\CupoSuperadoException;
 
 class VideoclubTest extends TestCase
 {
@@ -556,9 +557,10 @@ class VideoclubTest extends TestCase
     {
         $this->videoclub->incluirCintaVideo('Avatar', 3.5, 120);
         $this->videoclub->incluirCintaVideo('Titanic', 2.5, 194);
+        
+        // Debe lanzar ClienteNoExisteException cuando el cliente no existe
+        $this->expectException(ClienteNoExisteException::class);
         $this->videoclub->alquilarSocioProductos(999, [1, 2]);
-        // No debe lanzar excepción (está capturada)
-        $this->assertTrue(true);
     }
 
     /**
@@ -646,9 +648,10 @@ class VideoclubTest extends TestCase
     {
         $this->videoclub->incluirCintaVideo('Avatar', 3.5, 120);
         $this->videoclub->incluirCintaVideo('Titanic', 2.5, 194);
+        
+        // Debe lanzar ClienteNoExisteException cuando el cliente no existe
+        $this->expectException(ClienteNoExisteException::class);
         $this->videoclub->devolverSocioProductos(999, [1, 2]);
-        // No debe lanzar excepción (está capturada)
-        $this->assertTrue(true);
     }
 
     /**
@@ -713,5 +716,37 @@ class VideoclubTest extends TestCase
         $this->videoclub->listarSocios();
         // No debe lanzar excepción
         $this->assertTrue(true);
+    }
+
+    /**
+     * @test
+     * Prueba que se lanza ClienteNoExisteException al alquilar múltiples productos con cliente inexistente
+     */
+    public function testAlquilarMultiplesConClienteNoExisteException()
+    {
+        $this->videoclub->incluirCintaVideo('Avatar', 3.5, 120);
+        $this->videoclub->incluirCintaVideo('Titanic', 2.5, 194);
+        
+        // Debe lanzar ClienteNoExisteException cuando el cliente no existe
+        $this->expectException(ClienteNoExisteException::class);
+        $this->expectExceptionMessage('Cliente con número 999 no existe');
+        
+        $this->videoclub->alquilarSocioProductos(999, [1, 2]);
+    }
+
+    /**
+     * @test
+     * Prueba que se lanza ClienteNoExisteException al devolver múltiples productos con cliente inexistente
+     */
+    public function testDevolverMultiplesConClienteNoExisteException()
+    {
+        $this->videoclub->incluirCintaVideo('Avatar', 3.5, 120);
+        $this->videoclub->incluirCintaVideo('Titanic', 2.5, 194);
+        
+        // Debe lanzar ClienteNoExisteException cuando el cliente no existe
+        $this->expectException(ClienteNoExisteException::class);
+        $this->expectExceptionMessage('Cliente con número 999 no existe');
+        
+        $this->videoclub->devolverSocioProductos(999, [1, 2]);
     }
 }

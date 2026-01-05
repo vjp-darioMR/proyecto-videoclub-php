@@ -7,9 +7,9 @@ use Dwes\ProyectoVideoclub\Cliente;
 use Dwes\ProyectoVideoclub\CintaVideo;
 use Dwes\ProyectoVideoclub\Dvd;
 use Dwes\ProyectoVideoclub\Juego;
-use Dwes\ProyectoVideoclub\Util\SoporteYaAlquiladoException;
-use Dwes\ProyectoVideoclub\Util\CupoSuperadoException;
-use Dwes\ProyectoVideoclub\Util\SoporteNoEncontradoException;
+use Dwes\ProyectoVideoclub\Exception\SoporteYaAlquiladoException;
+use Dwes\ProyectoVideoclub\Exception\CupoSuperadoException;
+use Dwes\ProyectoVideoclub\Exception\SoporteNoEncontradoException;
 
 class ClienteTest extends TestCase
 {

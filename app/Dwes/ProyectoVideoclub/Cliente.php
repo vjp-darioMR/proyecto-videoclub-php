@@ -2,9 +2,9 @@
 
 namespace Dwes\ProyectoVideoclub;
 
-use Dwes\ProyectoVideoclub\Util\SoporteYaAlquiladoException;
-use Dwes\ProyectoVideoclub\Util\CupoSuperadoException;
-use Dwes\ProyectoVideoclub\Util\SoporteNoEncontradoException;
+use Dwes\ProyectoVideoclub\Exception\SoporteYaAlquiladoException;
+use Dwes\ProyectoVideoclub\Exception\CupoSuperadoException;
+use Dwes\ProyectoVideoclub\Exception\SoporteNoEncontradoException;
 use Psr\Log\LoggerInterface;
 use Dwes\ProyectoVideoclub\Util\LogFactory;
 

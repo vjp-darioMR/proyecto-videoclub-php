@@ -2,11 +2,12 @@
 
 namespace Dwes\ProyectoVideoclub;
 
-use Dwes\ProyectoVideoclub\Util\ClienteNoEncontradoException;
-use Dwes\ProyectoVideoclub\Util\SoporteNoEncontradoException;
-use Dwes\ProyectoVideoclub\Util\SoporteYaAlquiladoException;
-use Dwes\ProyectoVideoclub\Util\CupoSuperadoException;
-use Dwes\ProyectoVideoclub\Util\VideoclubException;
+use Dwes\ProyectoVideoclub\Exception\ClienteNoEncontradoException;
+use Dwes\ProyectoVideoclub\Exception\ClienteNoExisteException;
+use Dwes\ProyectoVideoclub\Exception\SoporteNoEncontradoException;
+use Dwes\ProyectoVideoclub\Exception\SoporteYaAlquiladoException;
+use Dwes\ProyectoVideoclub\Exception\CupoSuperadoException;
+use Dwes\ProyectoVideoclub\Exception\VideoclubException;
 use Monolog\Logger;
 use Dwes\ProyectoVideoclub\Util\LogFactory;
 
@@ -94,8 +95,8 @@ class Videoclub
             $socio->alquilar($producto);
             $this->logger->info('Alquiler realizado', ['cliente' => $socio->getNumero(), 'producto' => $producto->getNumero(), 'titulo' => $producto->getTitulo()]);
             return $this;
-        } catch (ClienteNoEncontradoException $e) {
-            $this->logger->info('Error cliente no encontrado al alquilar', ['cliente' => $numeroCliente, 'error' => $e->getMessage()]);
+        } catch (ClienteNoExisteException $e) {
+            $this->logger->info('Error cliente no existe al alquilar', ['cliente' => $numeroCliente, 'error' => $e->getMessage()]);
         } catch (SoporteNoEncontradoException $e) {
             $this->logger->info('Error soporte no encontrado al alquilar', ['soporte' => $numeroSoporte, 'error' => $e->getMessage()]);
         } catch (SoporteYaAlquiladoException $e) {
@@ -130,8 +131,9 @@ class Videoclub
             }
             $this->logger->info('Alquileres realizados', ['cliente' => $socio->getNumero(), 'cantidad' => count($productos), 'productos' => $numerosProductos]);
             return $this;
-        } catch (ClienteNoEncontradoException $e) {
-            $this->logger->warning('Error cliente no encontrado al alquilar varios', ['cliente' => $numSocio, 'error' => $e->getMessage()]);
+        } catch (ClienteNoExisteException $e) {
+            $this->logger->warning('Error cliente no existe al alquilar varios', ['cliente' => $numSocio, 'error' => $e->getMessage()]);
+            throw $e;
         } catch (SoporteNoEncontradoException $e) {
             $this->logger->warning('Error soporte no encontrado al alquilar varios', ['soportes' => $numerosProductos, 'cliente' => $numSocio, 'error' => $e->getMessage()]);
         } catch (SoporteYaAlquiladoException $e) {
@@ -152,8 +154,8 @@ class Videoclub
             $socio->devolver($numeroProducto);
             $this->logger->info('Devolución realizada', ['cliente' => $socio->getNumero(), 'producto' => $producto->getNumero(), 'titulo' => $producto->getTitulo()]);
             return $this;
-        } catch (ClienteNoEncontradoException $e) {
-            $this->logger->info('Error cliente no encontrado al devolver', ['cliente' => $numSocio, 'error' => $e->getMessage()]);
+        } catch (ClienteNoExisteException $e) {
+            $this->logger->info('Error cliente no existe al devolver', ['cliente' => $numSocio, 'error' => $e->getMessage()]);
         } catch (SoporteNoEncontradoException $e) {
             $this->logger->info('Error soporte no encontrado al devolver', ['soporte' => $numeroProducto, 'error' => $e->getMessage()]);
         } catch (VideoclubException $e) {
@@ -180,8 +182,9 @@ class Videoclub
             }
             $this->logger->info('Devoluciones realizadas', ['cliente' => $socio->getNumero(), 'cantidad' => count($productos), 'productos' => $numerosProductos]);
             return $this;
-        } catch (ClienteNoEncontradoException $e) {
-            $this->logger->warning('Error cliente no encontrado al devolver varios', ['cliente' => $numSocio, 'error' => $e->getMessage()]);
+        } catch (ClienteNoExisteException $e) {
+            $this->logger->warning('Error cliente no existe al devolver varios', ['cliente' => $numSocio, 'error' => $e->getMessage()]);
+            throw $e;
         } catch (SoporteNoEncontradoException $e) {
             $this->logger->warning('Error soporte no encontrado al devolver varios', ['soportes' => $numerosProductos, 'cliente' => $numSocio, 'error' => $e->getMessage()]);
         } catch (VideoclubException $e) {
@@ -224,7 +227,7 @@ class Videoclub
         if (isset($this->logger)) {
             $this->logger->warning('Socio no encontrado', ['cliente' => $numeroCliente]);
         }
-        throw new ClienteNoEncontradoException("Socio con número " . $numeroCliente . " no encontrado.");
+        throw new ClienteNoExisteException("Cliente con número " . $numeroCliente . " no existe.");
     }
 
     // Busca un producto por su número
