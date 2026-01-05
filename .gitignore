@@ -22,3 +22,5 @@ Thumbs.db
 # Archivos temporales
 *.tmp
 *.bak
+# TODOs personales
+todo.md

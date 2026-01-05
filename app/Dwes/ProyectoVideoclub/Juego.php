@@ -3,6 +3,7 @@ namespace Dwes\ProyectoVideoclub;
 require_once "Soporte.php";
 
 class Juego extends Soporte implements Resumible {
+    //Atributos de la clase Juego
     private $consola;             
     private $minNumJugadores;     
     private $maxNumJugadores;     
