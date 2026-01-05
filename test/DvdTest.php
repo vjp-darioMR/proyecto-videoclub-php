@@ -11,7 +11,7 @@ class DvdTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->dvd = new Dvd("Inception", 2, 4.50, "ES,EN", "16:9");
+        $this->dvd = new Dvd("Inception", 2, 4.50, "ES,EN", "16:9", 148);
     }
 
     public function testConstruct()
@@ -85,5 +85,36 @@ class DvdTest extends TestCase
         $this->assertStringContainsString("<div", $resultado);
         $this->assertStringContainsString("card", $resultado);
         $this->assertStringContainsString("border-warning", $resultado);
+    }
+
+    /**
+     * @test
+     * Prueba obtener duración del DVD
+     */
+    public function testGetDuracion()
+    {
+        $this->assertEquals(148, $this->dvd->getDuracion());
+    }
+
+    /**
+     * @test
+     * Prueba que la duración se almacena correctamente en el constructor
+     */
+    public function testConstructorConDuracion()
+    {
+        $dvd = new Dvd("The Matrix", 5, 3.50, "ES,EN,FR", "16:9", 136);
+        $this->assertEquals(136, $dvd->getDuracion());
+        $this->assertEquals("The Matrix", $dvd->getTitulo());
+    }
+
+    /**
+     * @test
+     * Prueba que la duración aparece en el resumen visual
+     */
+    public function testMuestraResumenContainsDuration()
+    {
+        $resultado = $this->dvd->muestraResumen();
+        $this->assertStringContainsString("148", $resultado);
+        $this->assertStringContainsString("Duración", $resultado);
     }
 }

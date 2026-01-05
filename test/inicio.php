@@ -45,10 +45,9 @@
             use Dwes\ProyectoVideoclub\CintaVideo;
             use Dwes\ProyectoVideoclub\Dvd;
             use Dwes\ProyectoVideoclub\Juego;
-
             // Instanciamos los soportes de prueba
             $miCinta = new CintaVideo("Los cazafantasmas", 23, 3.5, 107);
-            $miDvd = new Dvd("Origen", 24, 15, "Español, Ingles, Frances", "16:9");
+            $miDvd = new Dvd("Origen", 24, 15, "Español, Ingles, Frances", "16:9", 163);
             $mijuego1 = new Juego("The Last of Us", 26, 49.99, "PS4", 1, 1);
             ?>
             <div class="container">

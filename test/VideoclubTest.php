@@ -54,8 +54,8 @@ class VideoclubTest extends TestCase
      */
     public function testIncluirDvds()
     {
-        $this->videoclub->incluirDvd('Inception', 4.5, ['ES', 'EN'], '16:9');
-        $this->videoclub->incluirDvd('The Matrix', 3.0, ['ES', 'EN', 'FR'], '16:9');
+        $this->videoclub->incluirDvd('Inception', 4.5, ['ES', 'EN'], '16:9', 148);
+        $this->videoclub->incluirDvd('The Matrix', 3.0, ['ES', 'EN', 'FR'], '16:9', 136);
         
         $productos = $this->videoclub->getProductos();
         $this->assertCount(2, $productos);
@@ -349,7 +349,7 @@ class VideoclubTest extends TestCase
             $videoclub->alquilaSocioProducto(1, 1);
         }
         if ($tipo === 'dvd' || $tipo === 'mix') {
-            $videoclub->incluirDvd('Inception', 4.5, ['ES', 'EN'], '16:9');
+            $videoclub->incluirDvd('Inception', 4.5, ['ES', 'EN'], '16:9', 148);
             $videoclub->alquilaSocioProducto(1, $tipo === 'mix' ? 2 : 1);
         }
         if ($tipo === 'juego') {
@@ -457,7 +457,7 @@ class VideoclubTest extends TestCase
     {
         // Añadir productos
         $this->videoclub->incluirCintaVideo('Avatar', 3.5, 120);
-        $this->videoclub->incluirDvd('Inception', 4.5, ['ES', 'EN'], '16:9');
+        $this->videoclub->incluirDvd('Inception', 4.5, ['ES', 'EN'], '16:9', 148);
         $this->videoclub->incluirJuego('Elden Ring', 59.99, 'PS5', 1, 4);
         
         // Añadir socios
@@ -688,7 +688,7 @@ class VideoclubTest extends TestCase
     public function testListarProductosConContenido()
     {
         $this->videoclub->incluirCintaVideo('Avatar', 3.5, 120);
-        $this->videoclub->incluirDvd('Inception', 4.5, ['ES', 'EN'], '16:9');
+        $this->videoclub->incluirDvd('Inception', 4.5, ['ES', 'EN'], '16:9', 148);
         $this->videoclub->listarProductos();
         // No debe lanzar excepción
         $this->assertTrue(true);

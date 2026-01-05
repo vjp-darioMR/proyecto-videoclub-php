@@ -31,9 +31,9 @@ class ClienteTest extends TestCase
         ];
 
         $this->dvds = [
-            new Dvd('Inception', 4, 4.5, ['ES', 'EN'], '16:9'),
-            new Dvd('Interstellar', 5, 5.0, ['ES', 'EN'], '21:9'),
-            new Dvd('The Matrix', 6, 3.0, ['ES', 'EN', 'FR'], '16:9'),
+            new Dvd('Inception', 4, 4.5, ['ES', 'EN'], '16:9', 148),
+            new Dvd('Interstellar', 5, 5.0, ['ES', 'EN'], '21:9', 169),
+            new Dvd('The Matrix', 6, 3.0, ['ES', 'EN', 'FR'], '16:9', 136),
         ];
 
         $this->juegos = [
@@ -220,7 +220,7 @@ class ClienteTest extends TestCase
     {
         return [
             'cinta video' => [new CintaVideo('Avatar', 50, 3.5, 120), 50],
-            'dvd' => [new Dvd('Inception', 51, 4.5, ['ES', 'EN'], '16:9'), 51],
+            'dvd' => [new Dvd('Inception', 51, 4.5, ['ES', 'EN'], '16:9', 148), 51],
             'juego' => [new Juego('Elden Ring', 52, 59.99, 'PS5', 1, 4), 52],
         ];
     }

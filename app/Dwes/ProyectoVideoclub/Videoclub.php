@@ -51,9 +51,9 @@ class Videoclub
         return $this;
     }
 
-    public function incluirDvd($titulo, $precio, $idiomas, $formatoPantalla)
+    public function incluirDvd($titulo, $precio, $idiomas, $formatoPantalla, $duracion)
     {
-        $dvd = new Dvd($titulo, ++$this->numProductos, $precio, $idiomas, $formatoPantalla);
+        $dvd = new Dvd($titulo, ++$this->numProductos, $precio, $idiomas, $formatoPantalla, $duracion);
         $this->incluirProducto($dvd);
         return $this;
     }
